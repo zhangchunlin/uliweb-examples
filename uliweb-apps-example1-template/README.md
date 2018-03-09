@@ -13,3 +13,7 @@ Depend on:
 Important related file:
 - [inc_common_resource.html](https://github.com/uliwebext/uliweb-layout/blob/master/uliweb_layout/layout/templates/layout/include/inc_common_resource.html) in uliweb-layout.uliweb_layout.layout
   - include [AdminLTE](https://adminlte.io/themes/AdminLTE/index2.html) ( base on [Bootstrap3](https://getbootstrap.com/docs/3.3/) )
+
+
+
+![screenshot](screenshot.png)
