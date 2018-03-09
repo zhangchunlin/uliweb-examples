@@ -1,0 +1,15 @@
+{{extend "layout/basic.html"}}
+
+{{block resources}}
+{{include "weui/include/inc_common.html"}}
+{{end}}
+
+{{block body}}
+<body ontouchstart>
+
+<div class="container">
+{{block container}}{{end container}}
+</div>
+{{block footer_analytics}}{{end footer_analytics}}
+</body>
+{{end body}}
