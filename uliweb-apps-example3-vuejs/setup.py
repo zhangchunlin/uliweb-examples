@@ -1,5 +1,5 @@
 #coding=utf8
-__doc__ = """uliweb-apps-example1-template"""
+__doc__ = """uliweb-apps-example3-vuejs"""
 
 import re
 import os
@@ -76,16 +76,16 @@ def grep(attrname):
     return strval
 
 setup(
-    name='uliweb-apps-example',
+    name='uliweb-apps-example3-vuejs',
     version=grep('__version__'),
     url=grep('__url__'),
     license='BSD',
     author=grep('__author__'),
     author_email=grep('__email__'),
-    description='uliweb-apps-example',
+    description='uliweb-apps-example3-vuejs',
     long_description=desc(),
-    package_dir = {'uliweb-apps-example':'apps'},
-    packages = ["uliweb_apps_example"],
+    package_dir = {'uliweb-apps-example3-vuejs':'apps'},
+    packages = ["uliweb_apps_example3_vuejs"],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
