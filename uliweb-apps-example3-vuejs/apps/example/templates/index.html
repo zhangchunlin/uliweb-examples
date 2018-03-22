@@ -106,10 +106,10 @@ var app6 = new Vue({
 
 <h2>Example 7: 最简组件</h2> <hr>
 <div id="app-7">
-<child message="hello!"></child>
+<e7-child message="hello!"></e7-child>
 </div>
 <script>
-Vue.component('child', {
+Vue.component('e7-child', {
   // 声明 props
   props: ['message'],
   // 就像 data 一样，prop 也可以在模板中使用
@@ -164,10 +164,10 @@ var app8 = new Vue({
 <div id="app-9">
   <input v-model="parentMsg">
   <br>
-  <child v-bind:message="parentMsg"></child>
+  <e9-child v-bind:message="parentMsg"></e9-child>
 </div>
 <script>
-Vue.component('child', {
+Vue.component('e9-child', {
   // 声明 props
   props: ['message'],
   // 就像 data 一样，prop 也可以在模板中使用
@@ -266,16 +266,16 @@ new Vue({
 </div>
 <script>
 Vue.component('currency-input', {
-  template: '\
-    <span>\
-      $\
-      <input\
-\        ref="input"\
-        v-bind:value="value"\
-        v-on:input="updateValue($event.target.value)"\
-      >\
-    </span>\
-  ',
+  template: `
+    <span>
+      $
+      <input
+        ref="input"
+        v-bind:value="value"
+        v-on:input="updateValue($event.target.value)"
+      >
+    </span>
+  `,
   props: ['value'],
   methods: {
     // 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
@@ -305,4 +305,95 @@ new Vue({
   data: { price: '' }
 })
 </script>
+
+<h2>Example 13: 组件之单个插槽</h2> <hr>
+<div id="app-13">
+  <div>
+    <h3>我是父组件的标题</h3>
+    <my-component>
+      <p>这是一些初始内容</p>
+      <p>这是更多的初始内容</p>
+    </my-component>
+  </div>
+</div>
+
+<script>
+Vue.component('e13-my-component', {
+  template: `
+  <div>
+  <h2>我是子组件的标题</h2>
+  <slot>
+    只有在没有要分发的内容时才会显示。
+  </slot>
+</div>
+  `
+})
+
+new Vue({
+  el: '#app-13'
+})
+</script>
+
+<h2>Example 14: 组件之具名插槽</h2> <hr>
+<div id="app-14">
+  <app-layout>
+    <h3 slot="header">这里可能是一个页面标题</h3>
+
+    <p>主要内容的一个段落。</p>
+    <p>另一个主要段落。</p>
+
+    <p slot="footer">这里有一些联系信息</p>
+  </app-layout>
+</div>
+
+<script>
+Vue.component('app-layout', {
+  template: `
+<div class="container">
+  <header>
+    <slot name="header"></slot>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+  <footer>
+    <slot name="footer"></slot>
+  </footer>
+</div>
+`
+})
+
+new Vue({
+  el: '#app-14'
+})
+</script>
+
+<h2>Example 15: 组件之作用域插槽</h2> <hr>
+<div id="app-15">
+  <div class="parent">
+    <e15-child>
+      <template slot-scope="props">
+        <span>hello from parent</span>
+        <span>{ props.text }</span>
+      </template>
+    </e15-child>
+  </div>
+</div>
+
+<script>
+Vue.component('e15-child', {
+  template: `
+<div class="child">
+  <slot text="hello from child"></slot>
+</div>
+`,
+  delimiters: ['{', '}']
+})
+
+new Vue({
+  el: '#app-15',
+  delimiters: ['{', '}']
+})
+</script>
+
 {{end}}
