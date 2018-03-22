@@ -160,4 +160,149 @@ var app8 = new Vue({
 })
 </script>
 
+<h2>Example 9: 组件之使用v-bind实现动态prop</h2> <hr>
+<div id="app-9">
+  <input v-model="parentMsg">
+  <br>
+  <child v-bind:message="parentMsg"></child>
+</div>
+<script>
+Vue.component('child', {
+  // 声明 props
+  props: ['message'],
+  // 就像 data 一样，prop 也可以在模板中使用
+  // 同样也可以在 vm 实例中通过 this.message 来使用
+  template: '<span>{ message }</span>',
+  delimiters: ['{', '}']
+})
+var app9 = new Vue({
+  el: '#app-9',
+  data: {
+    parentMsg: 'Message from parent'
+  },
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>Example 10: 父组件在使用子组件的地方用 v-on 来监听子组件触发的事件</h2> <hr>
+<div id="app-10">
+  <p>{ total }</p>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+
+<script>
+  Vue.component('button-counter', {
+  template: '<button v-on:click="incrementCounter">{ counter }</button>',
+  data: function () {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    incrementCounter: function () {
+      this.counter += 1
+      this.$emit('increment')
+    }
+  },
+  delimiters: ['{', '}']
+})
+
+new Vue({
+  el: '#app-10',
+  data: {
+    total: 0
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1
+    }
+  },
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>Example 11: 子组件使用$emit发送消息到父组件</h2> <hr>
+<div id="app-11">
+  <p v-for="msg in messages">{ msg }</p>
+  <button-message v-on:message="handleMessage"></button-message>
+</div>
+<script>
+  Vue.component('button-message', {
+  template: `<div>
+    <input type="text" v-model="message" />
+    <button v-on:click="handleSendMessage">Send</button>
+  </div>`,
+  data: function () {
+    return {
+      message: 'test message'
+    }
+  },
+  methods: {
+    handleSendMessage: function () {
+      this.$emit('message', { message: this.message })
+    }
+  },
+  delimiters: ['{', '}']
+})
+
+new Vue({
+  el: '#app-11',
+  data: {
+    messages: []
+  },
+  methods: {
+    handleMessage: function (payload) {
+      this.messages.push(payload.message)
+    }
+  },
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>Example 12: 表单输入组件和v-model</h2> <hr>
+<div id="app-12">
+  <currency-input v-model="price"></currency-input>
+</div>
+<script>
+Vue.component('currency-input', {
+  template: '\
+    <span>\
+      $\
+      <input\
+\        ref="input"\
+        v-bind:value="value"\
+        v-on:input="updateValue($event.target.value)"\
+      >\
+    </span>\
+  ',
+  props: ['value'],
+  methods: {
+    // 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
+    updateValue: function (value) {
+      var formattedValue = value
+        // 删除两侧的空格符
+        .trim()
+        // 保留 2 位小数
+        .slice(
+          0,
+          value.indexOf('.') === -1
+            ? value.length
+            : value.indexOf('.') + 3
+        )
+      // 如果值尚不合规，则手动覆盖为合规的值
+      if (formattedValue !== value) {
+        this.$refs.input.value = formattedValue
+      }
+      // 通过 input 事件带出数值
+      this.$emit('input', Number(formattedValue))
+    }
+  }
+})
+
+new Vue({
+  el: '#app-12',
+  data: { price: '' }
+})
+</script>
 {{end}}
