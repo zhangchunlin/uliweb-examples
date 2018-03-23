@@ -396,4 +396,62 @@ new Vue({
 })
 </script>
 
+<h2>Example 16: 组件之递归组件</h2> <hr>
+<div id="app-16">
+  <e16-comr :count="1"></e16-comr>
+</div>
+<script>
+Vue.component('e16-comr', {
+  name : 'comR',
+  props : {
+    count : {
+      type : Number,
+      default : 1
+    }
+  },
+  template: `
+<div>
+  <e16-comr :count="count+1" v-if="count < 5"></e16-comr>{count}
+</div>
+`,
+  delimiters: ['{', '}']
+})
+
+new Vue({
+  el: '#app-16',
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>Example 17: 组件之异步组件</h2> <hr>
+<div id="app-17">
+  <e17-com></e17-com>
+</div>
+<script>
+Vue.component('e17-com', function(resolve, reject){
+  window.setTimeout(function(){
+    resolve({
+      template : '<div>来自异步的内容</div>'
+    })
+  },2000)
+})
+
+new Vue({
+  el: '#app-17',
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>Example 18: 组件之手动挂载</h2> <hr>
+<div id="app-18">
+    <div id="e18com"> original</div>
+</div>
+
+<script>
+  const myE18Component = Vue.extend({
+    template : '<div>from extend</div>'
+  })
+  new myE18Component().$mount('#e18com')
+</script>
+
 {{end}}
