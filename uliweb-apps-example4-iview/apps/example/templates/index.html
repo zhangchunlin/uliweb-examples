@@ -1,0 +1,27 @@
+{{extend "site/layout1.html"}}
+
+{{block content_main}}
+{{use "ui.vue"}}
+{{use "ui.iview"}}
+
+<h2>example 1</h2>
+<hr><br>
+<div id="app1">
+    <i-button @click="show">Click me!</i-button>
+    <Modal v-model="visible" title="Welcome">Welcome to iView</Modal>
+</div>
+<script>
+    new Vue({
+        el: '#app1',
+        data: {
+            visible: false
+        },
+        methods: {
+            show: function () {
+                this.visible = true;
+            }
+        }
+    })
+</script>
+
+{{end}}
