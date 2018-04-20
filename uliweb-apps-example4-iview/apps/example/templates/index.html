@@ -1,27 +1,2224 @@
 {{extend "site/layout1.html"}}
 
+{{block title}}iview examples in uliweb{{end title}}
+
 {{block content_main}}
 {{use "ui.vue"}}
 {{use "ui.iview"}}
 
-<h2>example 1</h2>
+<h2>grid example [<a href="https://www.iviewui.com/components/grid">link</a>]</h2>
 <hr><br>
-<div id="app1">
-    <i-button @click="show">Click me!</i-button>
-    <Modal v-model="visible" title="Welcome">Welcome to iView</Modal>
+<div id="app_grid">
+    <row>
+        <i-col span="12">col-12</i-col>
+        <i-col span="12">col-12</i-col>
+    </row>
+    <br>
+    <row>
+        <i-col span="8">col-8</i-col>
+        <i-col span="8">col-8</i-col>
+        <i-col span="8">col-8</i-col>
+    </row>
+    <br>
+    <row>
+        <i-col span="6">col-6</i-col>
+        <i-col span="6">col-6</i-col>
+        <i-col span="6">col-6</i-col>
+        <i-col span="6">col-6</i-col>
+    </row>
 </div>
 <script>
     new Vue({
-        el: '#app1',
-        data: {
-            visible: false
-        },
-        methods: {
-            show: function () {
-                this.visible = true;
-            }
-        }
+        el: '#app_grid'
     })
 </script>
+<br>
+<h2>layout example [<a href="https://www.iviewui.com/components/layout">link</a>]</h2>
+<hr><br>
+<div id="app_layout">
+    <div class="layout">
+        <layout>
+            <i-header>
+                <i-menu mode="horizontal" theme="dark" active-name="1">
+                    <div class="layout-logo"></div>
+                    <div class="layout-nav">
+                        <menu-item name="1">
+                            <icon type="ios-navigate"></icon>
+                            Item 1
+                        </menu-item>
+                        <menu-item name="2">
+                            <icon type="ios-keypad"></icon>
+                            Item 2
+                        </menu-item>
+                        <menu-item name="3">
+                            <icon type="ios-analytics"></icon>
+                            Item 3
+                        </menu-item>
+                        <menu-item name="4">
+                            <icon type="ios-paper"></icon>
+                            Item 4
+                        </menu-item>
+                    </div>
+                </i-menu>
+            </i-header>
+            <i-content :style="{padding: '0 50px'}">
+                <breadcrumb :style="{margin: '20px 0'}">
+                    <breadcrumb-item>Home</breadcrumb-item>
+                    <breadcrumb-item>Components</breadcrumb-item>
+                    <breadcrumb-item>Layout</breadcrumb-item>
+                </breadcrumb>
+                <card>
+                    <div style="min-height: 200px;">
+                        Content
+                    </div>
+                </card>
+            </i-content>
+            <i-footer class="layout-footer-center">2011-2016 &copy; TalkingData</i-footer>
+        </layout>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app_layout'
+    })
+</script>
+<br>
+<h2>button example [<a href="https://www.iviewui.com/components/button">link</a>]</h2>
+<hr><br>
+<div id="app_button">
+    <i-button>Default</i-button>
+    <i-button type="primary">Primary</i-button>
+    <i-button type="ghost">Ghost</i-button>
+    <i-button type="dashed">Dashed</i-button>
+    <i-button type="text">Text</i-button>
+    <br><br>
+    <i-button type="info">Info</i-button>
+    <i-button type="success">Success</i-button>
+    <i-button type="warning">Warning</i-button>
+    <i-button type="error">Error</i-button>
+    <br><br>
+    <i-button type="primary" shape="circle" icon="ios-search"></i-button>
+    <i-button type="primary" icon="ios-search">Search</i-button>
+    <i-button type="primary" shape="circle" icon="ios-search">Search</i-button>
+    <i-button type="primary" shape="circle">Circle</i-button>
+    <br><br>
+    <i-button type="ghost" shape="circle" icon="ios-search"></i-button>
+    <i-button type="ghost" icon="ios-search">Search</i-button>
+    <i-button type="ghost" shape="circle" icon="ios-search">Search</i-button>
+    <i-button type="ghost" shape="circle">Circle</i-button>
+</div>
+<script>
+new Vue({
+    el: '#app_button'
+})
+</script>
+
+<h2>icon example [<a href="https://www.iviewui.com/components/icon">link</a>]</h2>
+<hr><br>
+<div id="app_icon">
+    <Icon type="checkmark-round"></Icon> <Icon type="checkmark"></Icon> <Icon type="checkmark-circled"></Icon>
+</div>
+<script>
+new Vue({
+    el: '#app_icon'
+})
+</script>
+<br>
+<h2>input example [<a href="https://www.iviewui.com/components/input">link</a>]</h2>
+<hr><br>
+<div id="app_input">
+    <i-input v-model="value1" size="large" placeholder="large size"></i-input>
+    <br>
+    <i-input v-model="value2" placeholder="default size"></i-input>
+    <br>
+    <i-input v-model="value3" size="small" placeholder="small size"></i-input>
+    <br>
+    <i-input v-model="value14" placeholder="Enter something..." clearable style="width: 200px"></i-input>
+    <br>
+    <i-input v-model="value4" icon="ios-clock-outline" placeholder="Enter something..." style="width: 200px"></i-input>
+</div>
+<script>
+new Vue({
+    el: '#app_input',
+    data: {
+        value1 : "",
+        value2 : "",
+        value3 : "",
+        value14 : "can be cleaned",
+        value4 : "input with a icon"
+    }
+})
+</script>
+<br>
+<h2>radio example [<a href="https://www.iviewui.com/components/radio">link</a>]</h2>
+<hr><br>
+<div id="app_radio">
+    <radio-group v-model="phone">
+        <radio label="apple">
+            <icon type="social-apple"></icon>
+            <span>Apple</span>
+        </radio>
+        <radio label="android">
+            <icon type="social-android"></icon>
+            <span>Android</span>
+        </radio>
+        <radio label="windows">
+            <icon type="social-windows"></icon>
+            <span>Windows</span>
+        </radio>
+    </radio-group>
+    {phone}
+    <br><br>
+    <radio-group v-model="animal" vertical>
+        <radio label="金斑蝶"></radio>
+        <radio label="爪哇犀牛"></radio>
+        <radio label="印度黑羚"></radio>
+    </radio-group>
+    {animal}
+    <br><br>
+    <radio-group v-model="button1" type="button">
+        <radio label="北京"></radio>
+        <radio label="上海"></radio>
+        <radio label="深圳"></radio>
+        <radio label="杭州"></radio>
+    </radio-group>
+    {button1}
+    <br><br>
+    <radio-group v-model="button2" type="button">
+        <radio label="北京"></radio>
+        <radio label="上海" disabled></radio>
+        <radio label="深圳"></radio>
+        <radio label="杭州"></radio>
+    </radio-group>
+    {button2}
+    <br><br>
+    <radio-group v-model="button3" type="button">
+        <radio label="北京" disabled></radio>
+        <radio label="上海" disabled></radio>
+        <radio label="深圳" disabled></radio>
+        <radio label="杭州" disabled></radio>
+    </radio-group>
+</div>
+<script>
+new Vue({
+    el: '#app_radio',
+    data: {
+        phone : "android",
+        animal : "爪哇犀牛",
+        button1 : "",
+        button2 : "",
+        button3 : ""
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>table example [<a href="https://www.iviewui.com/components/table">link</a>]</h2>
+<hr><br>
+<div id="app_table">
+    <i-table stripe :columns="columns1" :data="data1"></i-table>
+    <br><br>
+    <i-table width="550" height="200" border :columns="columns2" :data="data4"></i-table>
+</div>
+<script>
+new Vue({
+    el: '#app_table',
+    data : {
+        columns1: [
+            {
+                title: 'Name',
+                key: 'name'
+            },
+            {
+                title: 'Age',
+                key: 'age'
+            },
+            {
+                title: 'Address',
+                key: 'address'
+            }
+        ],
+        data1: [
+            {
+                name: 'John Brown',
+                age: 18,
+                address: 'New York No. 1 Lake Park',
+                date: '2016-10-03'
+            },
+            {
+                name: 'Jim Green',
+                age: 24,
+                address: 'London No. 1 Lake Park',
+                date: '2016-10-01'
+            },
+            {
+                name: 'Joe Black',
+                age: 30,
+                address: 'Sydney No. 1 Lake Park',
+                date: '2016-10-02'
+            },
+            {
+                name: 'Jon Snow',
+                age: 26,
+                address: 'Ottawa No. 2 Lake Park',
+                date: '2016-10-04'
+            }
+        ],
+        columns2: [
+            {
+                title: 'Name',
+                key: 'name',
+                width: 100,
+                fixed: 'left'
+            },
+            {
+                title: 'Age',
+                key: 'age',
+                width: 100
+            },
+            {
+                title: 'Province',
+                key: 'province',
+                width: 100
+            },
+            {
+                title: 'City',
+                key: 'city',
+                width: 100
+            },
+            {
+                title: 'Address',
+                key: 'address',
+                width: 200
+            },
+            {
+                title: 'Postcode',
+                key: 'zip',
+                width: 100
+            },
+            {
+                title: 'Action',
+                key: 'action',
+                fixed: 'right',
+                width: 120,
+                render: (h, params) => {
+                    return h('div', [
+                        h('Button', {
+                            props: {
+                                type: 'text',
+                                size: 'small'
+                            }
+                        }, 'View'),
+                        h('Button', {
+                            props: {
+                                type: 'text',
+                                size: 'small'
+                            }
+                        }, 'Edit')
+                    ]);
+                }
+            }
+        ],
+        data4: [
+            {
+                name: 'John Brown',
+                age: 18,
+                address: 'New York No. 1 Lake Park',
+                province: 'America',
+                city: 'New York',
+                zip: 100000
+            },
+            {
+                name: 'Jim Green',
+                age: 24,
+                address: 'Washington, D.C. No. 1 Lake Park',
+                province: 'America',
+                city: 'Washington, D.C.',
+                zip: 100000
+            },
+            {
+                name: 'Joe Black',
+                age: 30,
+                address: 'Sydney No. 1 Lake Park',
+                province: 'Australian',
+                city: 'Sydney',
+                zip: 100000
+            },
+            {
+                name: 'Jon Snow',
+                age: 26,
+                address: 'Ottawa No. 2 Lake Park',
+                province: 'Canada',
+                city: 'Ottawa',
+                zip: 100000
+            },
+            {
+                name: 'John Brown',
+                age: 18,
+                address: 'New York No. 1 Lake Park',
+                province: 'America',
+                city: 'New York',
+                zip: 100000
+            },
+            {
+                name: 'Jim Green',
+                age: 24,
+                address: 'Washington, D.C. No. 1 Lake Park',
+                province: 'America',
+                city: 'Washington, D.C.',
+                zip: 100000
+            },
+            {
+                name: 'Joe Black',
+                age: 30,
+                address: 'Sydney No. 1 Lake Park',
+                province: 'Australian',
+                city: 'Sydney',
+                zip: 100000
+            },
+            {
+                name: 'Jon Snow',
+                age: 26,
+                address: 'Ottawa No. 2 Lake Park',
+                province: 'Canada',
+                city: 'Ottawa',
+                zip: 100000
+            }
+        ]
+    }
+})
+</script>
+<br>
+
+<h2>page example [<a href="https://www.iviewui.com/components/page">link</a>]</h2>
+<hr><br>
+<div id="app_page">
+    total: {total} current: {current} page size: {page_size}
+    <page :total="total" :current.sync="current" :page-size.sync="page_size" show-sizer show-total show-elevator></page>
+</div>
+<script>
+vue_page = new Vue({
+    el: '#app_page',
+    data : {
+        total : 80,
+        current : 3,
+        page_size : 10
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>select example [<a href="https://www.iviewui.com/components/select">link</a>]</h2>
+<hr><br>
+<div id="app_select">
+    {model10}
+    <br>
+    <i-select v-model="model10" multiple style="width:260px">
+        <i-option v-for="item in cityList" :value="item.value" :key="item.value">{ item.label }</i-option>
+    </i-select>
+    <br>
+    <br>
+    <row>
+        <i-col span="12" style="padding-right:10px">
+            <i-select
+                v-model="model13"
+                filterable
+                remote
+                :remote-method="remoteMethod1"
+                :loading="loading1">
+                <i-option v-for="(option, index) in options1" :value="option.value" :key="index">{option.label}</i-option>
+            </i-select>
+        </i-col>
+        <i-col span="12">
+        <i-select
+            v-model="model14"
+            multiple
+            filterable
+            remote
+            :remote-method="remoteMethod2"
+            :loading="loading2">
+            <i-option v-for="(option, index) in options2" :value="option.value" :key="index">{option.label}</i-option>
+        </i-select>
+        </i-col>
+    </row>
+</div>
+<script>
+new Vue({
+    el: '#app_select',
+    data : {
+        cityList: [
+            {
+                value: 'New York',
+                label: 'New York'
+            },
+            {
+                value: 'London',
+                label: 'London'
+            },
+            {
+                value: 'Sydney',
+                label: 'Sydney'
+            },
+            {
+                value: 'Ottawa',
+                label: 'Ottawa'
+            },
+            {
+                value: 'Paris',
+                label: 'Paris'
+            },
+            {
+                value: 'Canberra',
+                label: 'Canberra'
+            }
+        ],
+        model10: [],
+
+        model13: '',
+        loading1: false,
+        options1: [],
+        model14: [],
+        loading2: false,
+        options2: [],
+        list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming']
+    },
+    methods: {
+        remoteMethod1 (query) {
+            if (query !== '') {
+                this.loading1 = true;
+                setTimeout(() => {
+                    this.loading1 = false;
+                    const list = this.list.map(item => {
+                        return {
+                            value: item,
+                            label: item
+                        };
+                    });
+                    this.options1 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                }, 200);
+            } else {
+                this.options1 = [];
+            }
+        },
+        remoteMethod2 (query) {
+            if (query !== '') {
+                this.loading2 = true;
+                setTimeout(() => {
+                    this.loading2 = false;
+                    const list = this.list.map(item => {
+                        return {
+                            value: item,
+                            label: item
+                        };
+                    });
+                    this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                }, 200);
+            } else {
+                this.options2 = [];
+            }
+        }
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>auto complete example [<a href="https://www.iviewui.com/components/auto-complete">link</a>]</h2>
+<hr><br>
+<div id="app_autocomplete">
+    <auto-complete
+        v-model="value2"
+        @on-search="handleSearch2"
+        placeholder="input here"
+        style="width:200px">
+        <i-option v-for="item in data2" :value="item" :key="item">{ item }</i-option>
+    </auto-complete>
+</div>
+<script>
+new Vue({
+    el: '#app_autocomplete',
+    data : {
+        value2: '',
+        data2: []
+    },
+    methods: {
+        handleSearch2 (value) {
+            this.data2 = !value || value.indexOf('@') >= 0 ? [] : [
+                value + '@qq.com',
+                value + '@sina.com',
+                value + '@163.com'
+            ];
+        }
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>slider example [<a href="https://www.iviewui.com/components/slider">link</a>]</h2>
+<hr><br>
+<div id="app_slider">
+    <slider v-model="value1"></slider>
+    <slider v-model="value2" range></slider>
+    <slider v-model="value3" range disabled></slider>
+    <slider v-model="value6" :step="10" show-stops></slider>
+    <slider v-model="value7" :step="10" show-stops range></slider>
+</div>
+<script>
+new Vue({
+    el: '#app_slider',
+    data:{
+        value1: 25,
+        value2: [20, 50],
+        value3: [20, 50],
+        value6: 30,
+        value7: [20, 50]
+    }
+})
+</script>
+<br>
+
+<h2>date picker example [<a href="https://www.iviewui.com/components/date-picker">link</a>]</h2>
+<hr><br>
+<div id="app_date_picker">
+        <row>
+            <i-col span="12">
+                <date-picker type="date" :options="options1" placeholder="Select date" style="width: 200px"></date-picker>
+            </i-col>
+            <i-col span="12">
+                <date-picker type="daterange" :options="options2" placement="bottom-end" placeholder="Select date" style="width: 200px"></date-picker>
+            </i-col>
+        </row>
+</div>
+<script>
+new Vue({
+    el: '#app_date_picker',
+    data:{
+        options1: {
+            shortcuts: [
+                {
+                    text: 'Today',
+                    value () {
+                        return new Date();
+                    },
+                    onClick: (picker) => {
+                        this.$Message.info('Click today');
+                    }
+                },
+                {
+                    text: 'Yesterday',
+                    value () {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24);
+                        return date;
+                    },
+                    onClick: (picker) => {
+                        this.$Message.info('Click yesterday');
+                    }
+                },
+                {
+                    text: 'One week',
+                    value () {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                        return date;
+                    },
+                    onClick: (picker) => {
+                        this.$Message.info('Click a week ago');
+                    }
+                }
+            ]
+        },
+        options2: {
+            shortcuts: [
+                {
+                    text: '1 week',
+                    value () {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        return [start, end];
+                    }
+                },
+                {
+                    text: '1 month',
+                    value () {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        return [start, end];
+                    }
+                },
+                {
+                    text: '3 months',
+                    value () {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        return [start, end];
+                    }
+                }
+            ]
+        }
+    }
+})
+</script>
+<br>
+
+<h2>time picker example [<a href="https://www.iviewui.com/components/time-picker">link</a>]</h2>
+<hr><br>
+<div id="app_time_picker">
+    <row>
+        <i-col span="12">
+            <time-picker type="time" placeholder="Select time" style="width: 168px"></time-picker>
+        </i-col>
+        <i-col span="12">
+            <time-picker type="timerange" placement="bottom-end" placeholder="Select time" style="width: 168px"></time-picker>
+        </i-col>
+    </row>
+</div>
+<script>
+new Vue({
+    el: '#app_time_picker'
+})
+</script>
+<br>
+
+<h2>cascader example [<a href="https://www.iviewui.com/components/cascader">link</a>]</h2>
+<hr><br>
+<div id="app_cascader">
+    {value1}<br>
+    <cascader :data="data" v-model="value1"></cascader>
+</div>
+<script>
+new Vue({
+    el: '#app_cascader',
+    data:{
+        value1: [],
+        data: [{
+            value: 'beijing',
+            label: '北京',
+            children: [
+                {
+                    value: 'gugong',
+                    label: '故宫'
+                },
+                {
+                    value: 'tiantan',
+                    label: '天坛'
+                },
+                {
+                    value: 'wangfujing',
+                    label: '王府井'
+                }
+            ]
+        }, {
+            value: 'jiangsu',
+            label: '江苏',
+            children: [
+                {
+                    value: 'nanjing',
+                    label: '南京',
+                    children: [
+                        {
+                            value: 'fuzimiao',
+                            label: '夫子庙',
+                        }
+                    ]
+                },
+                {
+                    value: 'suzhou',
+                    label: '苏州',
+                    children: [
+                        {
+                            value: 'zhuozhengyuan',
+                            label: '拙政园',
+                        },
+                        {
+                            value: 'shizilin',
+                            label: '狮子林',
+                        }
+                    ]
+                }
+            ],
+        }]
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>transfer example [<a href="https://www.iviewui.com/components/transfer">link</a>]</h2>
+<hr><br>
+<div id="app_transfer">
+    targetKeys:{targetKeys1}<br>
+    <transfer
+        :data="data1"
+        :target-keys="targetKeys1"
+        :render-format="render1"
+        @on-change="handleChange1"></transfer>
+</div>
+<script>
+new Vue({
+    el: '#app_transfer',
+    data () {
+        return {
+            data1: this.getMockData(),
+            targetKeys1: this.getTargetKeys()
+        }
+    },
+    methods: {
+        getMockData () {
+            let mockData = [];
+            for (let i = 1; i <= 20; i++) {
+                mockData.push({
+                    key: i.toString(),
+                    label: 'Content ' + i,
+                    description: 'The desc of content  ' + i,
+                    disabled: Math.random() * 3 < 1
+                });
+            }
+            return mockData;
+        },
+        getTargetKeys () {
+            return this.getMockData()
+                    .filter(() => Math.random() * 2 > 1)
+                    .map(item => item.key);
+        },
+        render1 (item) {
+            return item.label;
+        },
+        handleChange1 (newTargetKeys, direction, moveKeys) {
+            console.log(newTargetKeys);
+            console.log(direction);
+            console.log(moveKeys);
+            this.targetKeys1 = newTargetKeys;
+        }
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>input number example [<a href="https://www.iviewui.com/components/input-number">link</a>]</h2>
+<hr><br>
+<div id="app_input_number">
+    <input-number :max="10" :min="1" v-model="value1"></input-number>
+    <div>
+        <input-number
+            :max="10000"
+            v-model="value9"
+            :formatter="value => `$ ${value}`.replace(/B(?=(d{3})+(?!d))/g, ',')"
+            :parser="value => value.replace(/$s?|(,*)/g, '')"></input-number>
+        <input-number
+            :max="100"
+            v-model="value10"
+            :formatter="value => `${value}%`"
+            :parser="value => value.replace('%', '')"></input-number>
+    </div>
+</div>
+<script>
+new Vue({
+    el: '#app_input_number',
+    data:{
+        value1: 1,
+        value9: 1000,
+        value10: 100
+    }
+})
+</script>
+<br>
+
+<h2>rate example [<a href="https://www.iviewui.com/components/rate">link</a>]</h2>
+<hr><br>
+<div id="app_rate">
+    rate:{valueHalf}<br>
+    <rate allow-half v-model="valueHalf"></rate>
+</div>
+<script>
+new Vue({
+    el: '#app_rate',
+    data:{
+        valueHalf: 2.5
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>upload example [<a href="https://www.iviewui.com/components/upload">link</a>]</h2>
+<hr><br>
+<div id="app_upload">
+    <upload
+        multiple
+        action="//jsonplaceholder.typicode.com/posts/">
+        <i-button type="ghost" icon="ios-cloud-upload-outline">Upload files</i-button>
+    </upload>
+    <br>
+    <upload
+        multiple
+        type="drag"
+        action="//jsonplaceholder.typicode.com/posts/">
+        <div style="padding: 20px 0">
+            <icon type="ios-cloud-upload" size="52" style="color: #3399ff"></icon>
+            <p>Click or drag files here to upload</p>
+        </div>
+    </upload>
+</div>
+<script>
+new Vue({
+    el: '#app_upload'
+})
+</script>
+<br>
+
+<h2>color picker example [<a href="https://www.iviewui.com/components/color-picker">link</a>]</h2>
+<hr><br>
+<div id="app_color_picker">
+    <row>
+        <i-col span="12">color1:{color1}</i-col>
+        <i-col span="12">color2:{color2}</i-col>
+    </row>
+    <row>
+        <i-col span="12">
+            有默认值
+            <color-picker v-model="color1" />
+        </i-col>
+        <i-col span="12">
+            无默认值
+            <color-picker v-model="color2" />
+        </i-col>
+    </row>
+</div>
+<script>
+new Vue({
+    el: '#app_color_picker',
+    data:{
+        color1: '#19be6b',
+        color2: ''
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>form example [<a href="https://www.iviewui.com/components/form">link</a>]</h2>
+<hr><br>
+<div id="app_form">
+    <i-form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+        <form-item prop="user">
+            <i-input type="text" v-model="formInline.user" placeholder="Username">
+                <icon type="ios-person-outline" slot="prepend"></icon>
+            </i-input>
+        </form-item>
+        <form-item prop="password">
+            <i-input type="password" v-model="formInline.password" placeholder="Password">
+                <icon type="ios-locked-outline" slot="prepend"></icon>
+            </i-input>
+        </form-item>
+        <form-item>
+            <i-button type="primary" @click="handleSubmit('formInline')">Signin</i-button>
+        </form-item>
+    </i-form>
+    <hr><br>
+    <i-form :model="formItem" :label-width="80">
+        <form-item label="Input">
+            <i-input v-model="formItem.input" placeholder="Enter something..."></i-input>
+        </form-item>
+        <form-item label="Select">
+            <i-select v-model="formItem.select">
+                <i-option value="beijing">New York</i-option>
+                <i-option value="shanghai">London</i-option>
+                <i-option value="shenzhen">Sydney</i-option>
+            </i-select>
+        </form-item>
+        <form-item label="DatePicker">
+            <row>
+                <i-col span="11">
+                    <date-picker type="date" placeholder="Select date" v-model="formItem.date"></date-picker>
+                </i-col>
+                <i-col span="2" style="text-align: center">-</i-col>
+                <i-col span="11">
+                    <time-picker type="time" placeholder="Select time" v-model="formItem.time"></time-picker>
+                </i-col>
+            </row>
+        </form-item>
+        <form-item label="Radio">
+            <radio-group v-model="formItem.radio">
+                <radio label="male">Male</radio>
+                <radio label="female">Female</radio>
+            </radio-group>
+        </form-item>
+        <form-item label="Checkbox">
+            <checkbox-group v-model="formItem.checkbox">
+                <checkbox label="Eat"></checkbox>
+                <checkbox label="Sleep"></checkbox>
+                <checkbox label="Run"></checkbox>
+                <checkbox label="Movie"></checkbox>
+            </checkbox-group>
+        </form-item>
+        <form-item label="Switch">
+            <i-switch v-model="formItem.switch" size="large">
+                <span slot="open">On</span>
+                <span slot="close">Off</span>
+            </i-switch>
+        </form-item>
+        <form-item label="Slider">
+            <slider v-model="formItem.slider" range></slider>
+        </form-item>
+        <form-item label="Text">
+            <i-input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></i-input>
+        </form-item>
+        <form-item>
+            <i-button type="primary">Submit</i-button>
+            <i-button type="ghost" style="margin-left: 8px">Cancel</i-button>
+        </form-item>
+    </i-form>
+    <hr><br>
+    <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
+        <form-item label="Password" prop="passwd">
+            <i-input type="password" v-model="formCustom.passwd"></i-input>
+        </form-item>
+        <form-item label="Confirm" prop="passwdCheck">
+            <i-input type="password" v-model="formCustom.passwdCheck"></i-input>
+        </form-item>
+        <form-item label="Age" prop="age">
+            <i-input type="text" v-model="formCustom.age" number></i-input>
+        </form-item>
+        <form-item>
+            <i-button type="primary" @click="handleSubmit('formCustom')">Submit</i-button>
+            <i-button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">Reset</i-button>
+        </form-item>
+    </i-form>
+</div>
+<script>
+new Vue({
+    el: '#app_form',
+    data () {
+        const validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('Please enter your password'));
+            } else {
+                if (this.formCustom.passwdCheck !== '') {
+                    // 对第二个密码框单独验证
+                    this.$refs.formCustom.validateField('passwdCheck');
+                }
+                callback();
+            }
+        };
+        const validatePassCheck = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('Please enter your password again'));
+            } else if (value !== this.formCustom.passwd) {
+                callback(new Error('The two input passwords do not match!'));
+            } else {
+                callback();
+            }
+        };
+        const validateAge = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('Age cannot be empty'));
+            }
+            // 模拟异步验证效果
+            setTimeout(() => {
+                if (!Number.isInteger(value)) {
+                    callback(new Error('Please enter a numeric value'));
+                } else {
+                    if (value < 18) {
+                        callback(new Error('Must be over 18 years of age'));
+                    } else {
+                        callback();
+                    }
+                }
+            }, 1000);
+        };
+        return {
+            formInline: {
+                user: '',
+                password: ''
+            },
+            ruleInline: {
+                user: [
+                    { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: 'Please fill in the password.', trigger: 'blur' },
+                    { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+                ]
+            },
+            formItem: {
+                input: '',
+                select: '',
+                radio: 'male',
+                checkbox: [],
+                switch: true,
+                date: '',
+                time: '',
+                slider: [20, 50],
+                textarea: ''
+            },
+            formCustom: {
+                    passwd: '',
+                    passwdCheck: '',
+                    age: ''
+                },
+            ruleCustom: {
+                passwd: [
+                    { validator: validatePass, trigger: 'blur' }
+                ],
+                passwdCheck: [
+                    { validator: validatePassCheck, trigger: 'blur' }
+                ],
+                age: [
+                    { validator: validateAge, trigger: 'blur' }
+                ]
+            }
+        }
+    },
+    methods: {
+        handleSubmit(name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    this.$Message.success('Success!');
+                } else {
+                    this.$Message.error('Fail!');
+                }
+            })
+        }
+    }
+})
+</script>
+<br>
+
+<h2>alert example [<a href="https://www.iviewui.com/components/alert">link</a>]</h2>
+<hr><br>
+<div id="app_alert">
+    <alert show-icon>An info prompt</alert>
+    <alert type="success" show-icon>A success prompt</alert>
+    <alert type="warning" show-icon>A warning prompt</alert>
+    <alert type="error" show-icon>An error prompt</alert>
+    <alert show-icon>
+        An info prompt
+        <template slot="desc">Content of prompt. Content of prompt. Content of prompt. Content of prompt. </template>
+    </alert>
+    <alert type="success" show-icon>
+        A success prompt
+        <span slot="desc">Content of prompt. Content of prompt. Content of prompt. Content of prompt. </span>
+    </alert>
+    <alert type="warning" show-icon>
+        A warning prompt
+        <template slot="desc">
+        Content of prompt. Content of prompt. Content of prompt.
+    </template>
+    </alert>
+    <alert type="error" show-icon>
+        An error prompt
+        <span slot="desc">
+            Custom error description copywriting.
+        </span>
+    </alert>
+    <alert show-icon>
+        Custom icon
+        <icon type="ios-lightbulb-outline" slot="icon"></icon>
+        <template slot="desc">Custom icon copywriting. Custom icon copywriting. Custom icon copywriting. </template>
+    </alert>
+</div>
+<script>
+new Vue({
+    el: '#app_alert'
+})
+</script>
+<br>
+
+<h2>card example [<a href="https://www.iviewui.com/components/card">link</a>]</h2>
+<hr><br>
+<div id="app_card">
+    <card style="width:350px">
+        <p slot="title">
+            <icon type="ios-film-outline"></icon>
+            Classic film
+        </p>
+        <a href="#" slot="extra" @click.prevent="changeLimit">
+            <icon type="ios-loop-strong"></icon>
+            Change
+        </a>
+        <ul>
+            <li v-for="item in randomMovieList">
+                <a :href="item.url" target="_blank">{ item.name }</a>
+                <span style="color: #ffac2d">
+                    <icon type="ios-star" v-for="n in 4" :key="n"></icon><icon type="ios-star" v-if="item.rate >= 9.5"></icon><icon type="ios-star-half" v-else></icon>
+                    { item.rate }
+                </span>
+            </li>
+        </ul>
+    </card>
+    <br><br>
+    <row>
+        <i-col span="11">
+            <card>
+                <p slot="title">The standard card</p>
+                <p>Content of card</p>
+                <p>Content of card</p>
+                <p>Content of card</p>
+            </card>
+        </i-col>
+        <i-col span="11" offset="2">
+            <card dis-hover>
+                <p slot="title">Disable card with hover shadows</p>
+                <p>Content of card</p>
+                <p>Content of card</p>
+                <p>Content of card</p>
+            </card>
+        </i-col>
+    </row>
+</div>
+<script>
+new Vue({
+    el: '#app_card',
+    data () {
+        return {
+            movieList: [
+                {
+                    name: 'The Shawshank Redemption',
+                    url: 'https://movie.douban.com/subject/1292052/',
+                    rate: 9.6
+                },
+                {
+                    name: 'Leon:The Professional',
+                    url: 'https://movie.douban.com/subject/1295644/',
+                    rate: 9.4
+                },
+                {
+                    name: 'Farewell to My Concubine',
+                    url: 'https://movie.douban.com/subject/1291546/',
+                    rate: 9.5
+                },
+                {
+                    name: 'Forrest Gump',
+                    url: 'https://movie.douban.com/subject/1292720/',
+                    rate: 9.4
+                },
+                {
+                    name: 'Life Is Beautiful',
+                    url: 'https://movie.douban.com/subject/1292063/',
+                    rate: 9.5
+                },
+                {
+                    name: 'Spirited Away',
+                    url: 'https://movie.douban.com/subject/1291561/',
+                    rate: 9.2
+                },
+                {
+                    name: 'Schindler\'s List',
+                    url: 'https://movie.douban.com/subject/1295124/',
+                    rate: 9.4
+                },
+                {
+                    name: 'The Legend of 1900',
+                    url: 'https://movie.douban.com/subject/1292001/',
+                    rate: 9.2
+                },
+                {
+                    name: 'WALL·E',
+                    url: 'https://movie.douban.com/subject/2131459/',
+                    rate: 9.3
+                },
+                {
+                    name: 'Inception',
+                    url: 'https://movie.douban.com/subject/3541415/',
+                    rate: 9.2
+                }
+            ],
+            randomMovieList: []
+        }
+    },
+    methods: {
+        changeLimit () {
+            function getArrayItems(arr, num) {
+                const temp_array = [];
+                for (let index in arr) {
+                    temp_array.push(arr[index]);
+                }
+                const return_array = [];
+                for (let i = 0; i<num; i++) {
+                    if (temp_array.length>0) {
+                        const arrIndex = Math.floor(Math.random()*temp_array.length);
+                        return_array[i] = temp_array[arrIndex];
+                        temp_array.splice(arrIndex, 1);
+                    } else {
+                        break;
+                    }
+                }
+                return return_array;
+            }
+            this.randomMovieList = getArrayItems(this.movieList, 5);
+        }
+    },
+    mounted () {
+        this.changeLimit();
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
+
+<h2>message example [<a href="https://www.iviewui.com/components/message">link</a>]</h2>
+<hr><br>
+<div id="app_message">
+    <i-button type="primary" @click="info">Display info prompt</i-button>
+    <br><br>
+    <i-button @click="success">Display success prompt</i-button>
+    <i-button @click="warning">Display warning prompt</i-button>
+    <i-button @click="error">Display error prompt</i-button>
+    <br><br>
+    <i-button @click="loading">Display loading...</i-button>
+</div>
+<script>
+new Vue({
+    el: '#app_message',
+    methods: {
+        info () {
+            this.$Message.info('This is a info tip');
+        },
+        success () {
+            this.$Message.success('This is a success tip');
+        },
+        warning () {
+            this.$Message.warning('This is a warning tip');
+        },
+        error () {
+            this.$Message.error('This is an error tip');
+        },
+        loading () {
+            const msg = this.$Message.loading({
+                content: 'Loading...',
+                duration: 0
+            });
+            setTimeout(msg, 3000);
+        }
+    }
+})
+</script>
+<br>
+
+<h2>notice example [<a href="https://www.iviewui.com/components/notice">link</a>]</h2>
+<hr><br>
+<div id="app_notice">
+    <p>With desc</p>
+    <i-button @click="info(false)">Info</i-button>
+    <i-button @click="success(false)">Success</i-button>
+    <i-button @click="warning(false)">Warning</i-button>
+    <i-button @click="error(false)">Error</i-button>
+    <p>Only title</p>
+    <i-button @click="info(true)">Info</i-button>
+    <i-button @click="success(true)">Success</i-button>
+    <i-button @click="warning(true)">Warning</i-button>
+    <i-button @click="error(true)">Error</i-button>
+</div>
+<script>
+new Vue({
+    el: '#app_notice',
+    methods: {
+        info (nodesc) {
+            this.$Notice.info({
+                title: 'Notification title',
+                desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
+            });
+        },
+        success (nodesc) {
+            this.$Notice.success({
+                title: 'Notification title',
+                desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
+            });
+        },
+        warning (nodesc) {
+            this.$Notice.warning({
+                title: 'Notification title',
+                desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
+            });
+        },
+        error (nodesc) {
+            this.$Notice.error({
+                title: 'Notification title',
+                desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
+            });
+        }
+    }
+})
+</script>
+<br>
+
+<h2>modal example [<a href="https://www.iviewui.com/components/modal">link</a>]</h2>
+<hr><br>
+<div id="app_modal">
+    <i-button type="primary" @click="modal6 = true">Display dialog box</i-button>
+    <modal
+        v-model="modal6"
+        title="Title"
+        :loading="loading"
+        @on-ok="asyncOK">
+        <p>After you click ok, the dialog box will close in 2 seconds.</p>
+    </modal>
+</div>
+<script>
+new Vue({
+    el: '#app_modal',
+    data () {
+        return {
+            modal6: false,
+            loading: true
+        }
+    },
+    methods: {
+        asyncOK () {
+            setTimeout(() => {
+                this.modal6 = false;
+            }, 2000);
+        }
+    }
+})
+</script>
+<br>
+
+<h2>progress example [<a href="https://www.iviewui.com/components/progress">link</a>]</h2>
+<hr><br>
+<div id="app_progress">
+    <i-progress :percent="25"></i-progress>
+    <i-progress :percent="45" status="active"></i-progress>
+    <i-progress :percent="65" status="wrong"></i-progress>
+    <i-progress :percent="100"></i-progress>
+    <i-progress :percent="25" hide-info></i-progress>
+    <div style="height: 100px;">
+        <i-progress vertical :percent="25"></i-progress>
+        <i-progress vertical :percent="45" status="active"></i-progress>
+        <i-progress vertical :percent="65" status="wrong"></i-progress>
+        <i-progress vertical :percent="100"></i-progress>
+        <i-progress vertical :percent="25" hide-info></i-progress>
+    </div>
+</div>
+<script>
+new Vue({
+    el: '#app_progress'
+})
+</script>
+<br>
+
+<h2>avatar example [<a href="https://www.iviewui.com/components/avatar">link</a>]</h2>
+<hr><br>
+<div id="app_avatar">
+    <div>
+        <div>
+            <span><avatar icon="person" size="large" /></span>
+            <span><avatar icon="person" /></span>
+            <span><avatar icon="person" size="small" /></span>
+        </div>
+        <div>
+            <span><avatar shape="square" icon="person" size="large" /></span>
+            <span><avatar shape="square" icon="person" /></span>
+            <span><avatar shape="square" icon="person" size="small" /></span>
+        </div>
+    </div>
+    <br>
+    <div class="demo-avatar">
+        <span><avatar icon="person" /></span>
+        <span><avatar>U</avatar></span>
+        <span><avatar>USER</avatar></span>
+        <span><avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" /></span>
+        <span><avatar style="color: #f56a00;background-color: #fde3cf">U</avatar></span>
+        <span><avatar style="background-color: #87d068" icon="person" /></span>
+    </div>
+    <br>
+    <div class="demo-avatar-badge">
+        <badge count="1">
+            <span><avatar shape="square" icon="person" /></span>
+        </badge>
+        <badge dot>
+            <span><avatar shape="square" icon="person" /></span>
+        </badge>
+    </div>
+</div>
+<script>
+new Vue({
+    el: '#app_avatar'
+})
+</script>
+<br>
+
+<h2>badge example [<a href="https://www.iviewui.com/components/badge">link</a>]</h2>
+<hr><br>
+<style scoped>
+    .demo-badge{
+        width: 42px;
+        height: 42px;
+        background: #eee;
+        border-radius: 6px;
+        display: inline-block;
+    }
+</style>
+<div id="app_badge">
+    <badge count="3">
+        <a href="#" class="demo-badge"></a>
+    </badge>
+    <br><br>
+    <badge dot>
+        <a href="#" class="demo-badge"></a>
+    </badge>
+    <badge dot>
+        <icon type="ios-bell-outline" size="26"></icon>
+    </badge>
+    <badge dot>
+        <a href="#">可以是一个链接</a>
+    </badge>
+    <br><br>
+    <badge count="100">
+        <a href="#" class="demo-badge"></a>
+    </badge>
+    <badge count="1000" overflow-count="999">
+        <a href="#" class="demo-badge"></a>
+    </badge>
+</div>
+<script>
+new Vue({
+    el: '#app_badge'
+})
+</script>
+<br>
+
+<h2>collapse example [<a href="https://www.iviewui.com/components/collapse">link</a>]</h2>
+<hr><br>
+<div id="app_collapse">
+   <collapse v-model="value1">
+        <panel name="1">
+            史蒂夫·乔布斯
+            <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p>
+        </panel>
+        <panel name="2">
+            斯蒂夫·盖瑞·沃兹尼亚克
+            <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
+        </panel>
+        <panel name="3">
+            乔纳森·伊夫
+            <p slot="content">乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。</p>
+        </panel>
+    </collapse>
+</div>
+<script>
+new Vue({
+    el: '#app_collapse',
+    data () {
+        return {
+            value1: '1'
+        }
+    }
+})
+</script>
+<br>
+
+<h2>timeline example [<a href="https://www.iviewui.com/components/timeline">link</a>]</h2>
+<hr><br>
+<style scoped>
+    .time{
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .content{
+        padding-left: 5px;
+    }
+</style>
+<div id="app_timeline">
+    <timeline>
+        <timeline-item color="green">发布1.0版本</timeline-item>
+        <timeline-item color="green">发布2.0版本</timeline-item>
+        <timeline-item color="red">严重故障</timeline-item>
+        <timeline-item color="blue">发布3.0版本</timeline-item>
+    </timeline>
+</div>
+<script>
+new Vue({
+    el: '#app_timeline'
+})
+</script>
+<br>
+
+<h2>tag example [<a href="https://www.iviewui.com/components/tag">link</a>]</h2>
+<hr><br>
+<div id="app_tag">
+    <tag closable color="blue">标签一</tag>
+    <tag closable color="green">标签二</tag>
+    <tag closable color="red">标签三</tag>
+    <tag closable color="yellow">标签四</tag>
+    <br><br>
+    <tag type="border" closable color="blue">标签一</tag>
+    <tag type="border" closable color="green">标签二</tag>
+    <tag type="border" closable color="red">标签三</tag>
+    <tag type="border" closable color="yellow">标签四</tag>
+    <br><br>
+    <tag type="dot" closable color="blue">标签一</tag>
+    <tag type="dot" closable color="green">标签二</tag>
+    <tag type="dot" closable color="red">标签三</tag>
+    <tag type="dot" closable color="yellow">标签四</tag>
+    <br><br>
+    <tag closable color="#EF6AFF" checkable>标签一</tag>
+    <tag type="border" closable color="#EF6AFF" checkable>标签二</tag>
+    <tag type="dot" closable color="#EF6AFF" checkable>标签三</tag>
+    <tag closable color="default" checkable>标签四</tag>
+</div>
+<script>
+new Vue({
+    el: '#app_tag'
+})
+</script>
+<br>
+
+<h2>tooltip example [<a href="https://www.iviewui.com/components/tooltip">link</a>]</h2>
+<hr><br>
+<style scoped>
+    .top,.bottom{
+        text-align: center;
+    }
+    .center{
+        width: 300px;
+        margin: 10px auto;
+        overflow: hidden;
+    }
+    .center-left{
+        float: left;
+    }
+    .center-right{
+        float: right;
+    }
+</style>
+<div id="app_tooltip">
+    <tooltip content="Here is the prompt text">
+        A balloon appears when the mouse passes over this text
+    </tooltip>
+
+    <div class="top">
+        <tooltip content="Top Left text" placement="top-start">
+            <i-button>Top Left</i-button>
+        </tooltip>
+        <tooltip content="Top Center text" placement="top">
+            <i-button>Top Center</i-button>
+        </tooltip>
+        <tooltip content="Top Right text" placement="top-end">
+            <i-button>Top Right</i-button>
+        </tooltip>
+    </div>
+    <div class="center">
+        <div class="center-left">
+            <tooltip content="Left Top text" placement="left-start">
+                <i-button>Left Top</i-button>
+            </tooltip><br><br>
+            <tooltip content="Left Center text" placement="left">
+                <i-button>Left Center</i-button>
+            </tooltip><br><br>
+            <tooltip content="Left Bottom text" placement="left-end">
+                <i-button>Left Bottom</i-button>
+            </tooltip>
+        </div>
+        <div class="center-right">
+            <tooltip content="Right Top text" placement="right-start">
+                <i-button>Right Top</i-button>
+            </tooltip><br><br>
+            <tooltip content="Right Center text" placement="right">
+                <i-button>Right Center</i-button>
+            </tooltip><br><br>
+            <tooltip content="Right Bottom text" placement="right-end">
+                <i-button>Right Bottom</i-button>
+            </tooltip>
+        </div>
+    </div>
+    <div class="bottom">
+        <tooltip content="Bottom Left text" placement="bottom-start">
+            <i-button>Bottom Left</i-button>
+        </tooltip>
+        <tooltip content="Bottom Center text" placement="bottom">
+            <i-button>Bottom Center</i-button>
+        </tooltip>
+        <tooltip content="Bottom Right text" placement="bottom-end">
+            <i-button>Bottom Right</i-button>
+        </tooltip>
+    </div>
+</div>
+<script>
+new Vue({
+    el: '#app_tooltip'
+})
+</script>
+<br>
+
+<h2>poptip example [<a href="https://www.iviewui.com/components/poptip">link</a>]</h2>
+<hr><br>
+<div id="app_poptip">
+    <poptip trigger="hover" title="Title" content="content">
+        <i-button>Hover</i-button>
+    </poptip>
+    <poptip title="Title" content="content">
+        <i-button>Click</i-button>
+    </poptip>
+    <poptip trigger="focus" title="Title" content="content">
+        <i-button>Focus</i-button>
+    </poptip>
+    <poptip trigger="focus" title="Title" content="content">
+        <i-input placeholder="Input focus" />
+    </poptip>
+</div>
+<script>
+new Vue({
+    el: '#app_poptip'
+})
+</script>
+<br>
+
+<h2>carousel example [<a href="https://www.iviewui.com/components/carousel">link</a>]</h2>
+<hr><br>
+<style>
+.demo-carousel {
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    background: #506b9e;
+}
+</style>
+<div id="app_carousel">
+    <carousel autoplay v-model="value2" loop>
+        <carousel-item>
+            <div class="demo-carousel">1</div>
+        </carousel-item>
+        <carousel-item>
+            <div class="demo-carousel">2</div>
+        </carousel-item>
+        <carousel-item>
+            <div class="demo-carousel">3</div>
+        </carousel-item>
+        <carousel-item>
+            <div class="demo-carousel">4</div>
+        </carousel-item>
+    </carousel>
+</div>
+<script>
+new Vue({
+    el: '#app_carousel',
+    data () {
+        return {
+            value2: 0
+        }
+    }
+})
+</script>
+<br>
+
+<h2>tree example [<a href="https://www.iviewui.com/components/tree">link</a>]</h2>
+<hr><br>
+<div id="app_tree">
+    <tree :data="data2" show-checkbox></tree>
+</div>
+<script>
+new Vue({
+    el: '#app_tree',
+    data () {
+        return {
+            data2: [
+                {
+                    title: 'parent 1',
+                    expand: true,
+                    children: [
+                        {
+                            title: 'parent 1-1',
+                            expand: true,
+                            children: [
+                                {
+                                    title: 'leaf 1-1-1'
+                                },
+                                {
+                                    title: 'leaf 1-1-2'
+                                }
+                            ]
+                        },
+                        {
+                            title: 'parent 1-2',
+                            expand: true,
+                            children: [
+                                {
+                                    title: 'leaf 1-2-1'
+                                },
+                                {
+                                    title: 'leaf 1-2-1'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+})
+</script>
+<br>
+
+<h2>menu example [<a href="https://www.iviewui.com/components/menu">link</a>]</h2>
+<hr><br>
+<div id="app_menu">
+    <i-menu mode="horizontal" :theme="theme1" active-name="1">
+        <menu-item name="1">
+            <icon type="ios-paper"></icon>
+            内容管理
+        </menu-item>
+        <menu-item name="2">
+            <icon type="ios-people"></icon>
+            用户管理
+        </menu-item>
+        <submenu name="3">
+            <template slot="title">
+                <icon type="stats-bars"></icon>
+                统计分析
+            </template>
+            <menu-group title="使用">
+                <menu-item name="3-1">新增和启动</menu-item>
+                <menu-item name="3-2">活跃分析</menu-item>
+                <menu-item name="3-3">时段分析</menu-item>
+            </menu-group>
+            <menu-group title="留存">
+                <menu-item name="3-4">用户留存</menu-item>
+                <menu-item name="3-5">流失用户</menu-item>
+            </menu-group>
+        </submenu>
+        <menu-item name="4">
+            <icon type="settings"></icon>
+            综合设置
+        </menu-item>
+    </i-menu>
+    <br>
+    <p>Change theme</p>
+    <radio-group v-model="theme1">
+        <radio label="light"></radio>
+        <radio label="dark"></radio>
+        <radio label="primary"></radio>
+    </radio-group>
+
+    <br><br>
+
+    <row>
+        <i-col span="8">
+            <i-menu :theme="theme2">
+                <submenu name="1">
+                    <template slot="title">
+                        <icon type="ios-paper"></icon>
+                        内容管理
+                    </template>
+                    <menu-item name="1-1">文章管理</menu-item>
+                    <menu-item name="1-2">评论管理</menu-item>
+                    <menu-item name="1-3">举报管理</menu-item>
+                </submenu>
+                <submenu name="2">
+                    <template slot="title">
+                        <icon type="ios-people"></icon>
+                        用户管理
+                    </template>
+                    <menu-item name="2-1">新增用户</menu-item>
+                    <menu-item name="2-2">活跃用户</menu-item>
+                </submenu>
+                <submenu name="3">
+                    <template slot="title">
+                        <icon type="stats-bars"></icon>
+                        统计分析
+                    </template>
+                    <menu-group title="使用">
+                        <menu-item name="3-1">新增和启动</menu-item>
+                        <menu-item name="3-2">活跃分析</menu-item>
+                        <menu-item name="3-3">时段分析</menu-item>
+                    </menu-group>
+                    <menu-group title="留存">
+                        <menu-item name="3-4">用户留存</menu-item>
+                        <menu-item name="3-5">流失用户</menu-item>
+                    </menu-group>
+                </submenu>
+            </i-menu>
+        </i-col>
+        <i-col span="8">
+            <i-menu :theme="theme2" active-name="1-2" :open-names="['1']">
+                <submenu name="1">
+                    <template slot="title">
+                        <icon type="ios-paper"></icon>
+                        内容管理
+                    </template>
+                    <menu-item name="1-1">文章管理</menu-item>
+                    <menu-item name="1-2">评论管理</menu-item>
+                    <menu-item name="1-3">举报管理</menu-item>
+                </submenu>
+                <submenu name="2">
+                    <template slot="title">
+                        <icon type="ios-people"></icon>
+                        用户管理
+                    </template>
+                    <menu-item name="2-1">新增用户</menu-item>
+                    <menu-item name="2-2">活跃用户</menu-item>
+                </submenu>
+                <submenu name="3">
+                    <template slot="title">
+                        <icon type="stats-bars"></icon>
+                        统计分析
+                    </template>
+                    <menu-group title="使用">
+                        <menu-item name="3-1">新增和启动</menu-item>
+                        <menu-item name="3-2">活跃分析</menu-item>
+                        <menu-item name="3-3">时段分析</menu-item>
+                    </menu-group>
+                    <menu-group title="留存">
+                        <menu-item name="3-4">用户留存</menu-item>
+                        <menu-item name="3-5">流失用户</menu-item>
+                    </menu-group>
+                </submenu>
+            </i-menu>
+        </i-col>
+        <i-col span="8">
+            <i-menu :theme="theme2" :open-names="['1']" accordion>
+                <submenu name="1">
+                    <template slot="title">
+                        <icon type="ios-paper"></icon>
+                        内容管理
+                    </template>
+                    <menu-item name="1-1">文章管理</menu-item>
+                    <menu-item name="1-2">评论管理</menu-item>
+                    <menu-item name="1-3">举报管理</menu-item>
+                </submenu>
+                <submenu name="2">
+                    <template slot="title">
+                        <icon type="ios-people"></icon>
+                        用户管理
+                    </template>
+                    <menu-item name="2-1">新增用户</menu-item>
+                    <menu-item name="2-2">活跃用户</menu-item>
+                </submenu>
+                <submenu name="3">
+                    <template slot="title">
+                        <icon type="stats-bars"></icon>
+                        统计分析
+                    </template>
+                    <menu-group title="使用">
+                        <menu-item name="3-1">新增和启动</menu-item>
+                        <menu-item name="3-2">活跃分析</menu-item>
+                        <menu-item name="3-3">时段分析</menu-item>
+                    </menu-group>
+                    <menu-group title="留存">
+                        <menu-item name="3-4">用户留存</menu-item>
+                        <menu-item name="3-5">流失用户</menu-item>
+                    </menu-group>
+                </submenu>
+            </i-menu>
+        </i-col>
+    </row>
+    <br>
+    <p>Change theme</p>
+    <radio-group v-model="theme2">
+        <radio label="light"></radio>
+        <radio label="dark"></radio>
+    </radio-group>
+</div>
+<script>
+new Vue({
+    el: '#app_menu',
+    data () {
+        return {
+            theme1: 'light',
+            theme2: 'light'
+        }
+    }
+})
+</script>
+<br>
+
+<h2>tabs example [<a href="https://www.iviewui.com/components/tabs">link</a>]</h2>
+<hr><br>
+<div id="app_tabs">
+    <tabs>
+        <tab-pane label="macOS" icon="social-apple">标签一的内容</tab-pane>
+        <tab-pane label="Windows" icon="social-windows">标签二的内容</tab-pane>
+        <tab-pane label="Linux" icon="social-tux">标签三的内容</tab-pane>
+    </tabs>
+</div>
+<script>
+new Vue({
+    el: '#app_tabs'
+})
+</script>
+<br>
+
+<h2>affix example [<a href="https://www.iviewui.com/components/affix">link</a>]</h2>
+<hr><br>
+<div id="app_affix">
+    <affix :offset-top="100" @on-change="change">
+        <span class="demo-affix">Fix the position at the top of 100px at the top</span>
+    </affix>
+</div>
+<script>
+new Vue({
+    el: '#app_affix',
+    methods: {
+        change (status) {
+            this.$Message.info(`Status: ${status}`);
+        }
+    }
+})
+</script>
+<br>
+
+<h2>back-top example [<a href="https://www.iviewui.com/components/back-top">link</a>]</h2>
+<hr><br>
+<div id="app_back_top">
+    <back-top></back-top>
+</div>
+<script>
+new Vue({
+    el: '#app_back_top'
+})
+</script>
+<br>
+
+<h2>dropdown example [<a href="https://www.iviewui.com/components/dropdown">link</a>]</h2>
+<hr><br>
+<div id="app_dropdown">
+    <dropdown>
+        <a href="javascript:void(0)">
+            下拉菜单
+            <icon type="arrow-down-b"></icon>
+        </a>
+        <dropdown-menu slot="list">
+            <dropdown-item>驴打滚</dropdown-item>
+            <dropdown-item>炸酱面</dropdown-item>
+            <dropdown-item disabled>豆汁儿</dropdown-item>
+            <dropdown-item>冰糖葫芦</dropdown-item>
+            <dropdown-item divided>北京烤鸭</dropdown-item>
+        </dropdown-menu>
+    </dropdown>
+    <dropdown style="margin-left: 20px">
+        <i-button type="primary">
+            下拉菜单
+            <icon type="arrow-down-b"></icon>
+        </i-button>
+        <dropdown-menu slot="list">
+            <dropdown-item>驴打滚</dropdown-item>
+            <dropdown-item>炸酱面</dropdown-item>
+            <dropdown-item disabled>豆汁儿</dropdown-item>
+            <dropdown-item>冰糖葫芦</dropdown-item>
+            <dropdown-item divided>北京烤鸭</dropdown-item>
+        </dropdown-menu>
+    </dropdown>
+</div>
+<script>
+new Vue({
+    el: '#app_dropdown'
+})
+</script>
+<br>
+
+<h2>breadcrumb example [<a href="https://www.iviewui.com/components/breadcrumb">link</a>]</h2>
+<hr><br>
+<div id="app_breadcrumb">
+    <breadcrumb>
+        <breadcrumb-item to="/">
+            <icon type="ios-home-outline"></icon> Home
+        </breadcrumb-item>
+        <breadcrumb-item to="/components/breadcrumb">
+            <icon type="social-buffer-outline"></icon> Components
+        </breadcrumb-item>
+        <breadcrumb-item>
+            <icon type="pound"></icon> Breadcrumb
+        </breadcrumb-item>
+    </breadcrumb>
+    <breadcrumb separator=">">
+        <breadcrumb-item to="/">Home</breadcrumb-item>
+        <breadcrumb-item to="/components/breadcrumb">Components</breadcrumb-item>
+        <breadcrumb-item>Breadcrumb</breadcrumb-item>
+    </breadcrumb>
+    <breadcrumb separator="<b class='demo-breadcrumb-separator'>=></b>">
+        <breadcrumb-item to="/">Home</breadcrumb-item>
+        <breadcrumb-item to="/components/breadcrumb">Components</breadcrumb-item>
+        <breadcrumb-item>Breadcrumb</breadcrumb-item>
+    </breadcrumb>
+</div>
+<script>
+new Vue({
+    el: '#app_breadcrumb'
+})
+</script>
+<br>
+
+<h2>steps example [<a href="https://www.iviewui.com/components/steps">link</a>]</h2>
+<hr><br>
+<div id="app_steps">
+    <steps :current="1">
+        <step title="已完成" content="这里是该步骤的描述信息"></step>
+        <step title="进行中" content="这里是该步骤的描述信息"></step>
+        <step title="待进行" content="这里是该步骤的描述信息"></step>
+        <step title="待进行" content="这里是该步骤的描述信息"></step>
+    </steps>
+    <br><br>
+    <steps :current="1">
+        <step title="注册" icon="person-add"></step>
+        <step title="上传头像" icon="camera"></step>
+        <step title="验证邮箱" icon="email"></step>
+    </steps>
+</div>
+<script>
+new Vue({
+    el: '#app_steps'
+})
+</script>
+<br>
+
+<h2>loading-bar example [<a href="https://www.iviewui.com/components/loading-bar">link</a>]</h2>
+<hr><br>
+<div id="app_loading_bar">
+    <i-button @click="start">Start</i-button>
+    <i-button @click="finish">Finish</i-button>
+    <i-button @click="error">Error</i-button>
+</div>
+<script>
+new Vue({
+    el: '#app_loading_bar',
+    methods: {
+        start () {
+            this.$Loading.start();
+        },
+        finish () {
+            this.$Loading.finish();
+        },
+        error () {
+            this.$Loading.error();
+        }
+    }
+})
+</script>
+<br>
+
+<h2>circle example [<a href="https://www.iviewui.com/components/circle">link</a>]</h2>
+<hr><br>
+<div id="app_circle">
+    <i-circle :percent="80">
+        <span class="demo-Circle-inner" style="font-size:24px">80%</span>
+    </i-circle>
+    <i-circle :percent="100" stroke-color="#5cb85c">
+        <icon type="ios-checkmark-empty" size="60" style="color:#5cb85c"></icon>
+    </i-circle>
+    <i-circle :percent="35" stroke-color="#ff5500">
+        <span class="demo-Circle-inner">
+            <icon type="ios-close-empty" size="50" style="color:#ff5500"></icon>
+        </span>
+    </i-circle>
+    <br><br>
+    <i-circle
+        :size="250"
+        :trail-width="4"
+        :stroke-width="5"
+        :percent="75"
+        stroke-linecap="square"
+        stroke-color="#43a3fb">
+        <div class="demo-Circle-custom">
+            <h1>42,001,776</h1>
+            <p>消费人群规模</p>
+            <span>
+                总占人数
+                <i>75%</i>
+            </span>
+        </div>
+    </i-circle>
+</div>
+<script>
+new Vue({
+    el: '#app_circle'
+})
+</script>
+<br>
+
+<h2>spin example [<a href="https://www.iviewui.com/components/spin">link</a>]</h2>
+<hr><br>
+<style>
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    .demo-spin-col{
+        height: 100px;
+        position: relative;
+        border: 1px solid #eee;
+    }
+</style>
+<div id="app_spin">
+    <spin size="small"></spin>
+    <spin></spin>
+    <spin size="large"></spin>
+
+    <row>
+        <i-col class="demo-spin-col" span="8">
+            <spin fix>加载中...</spin>
+        </i-col>
+        <i-col class="demo-spin-col" span="8">
+            <spin fix>
+                <icon type="load-c" size=18 class="demo-spin-icon-load"></icon>
+                <div>Loading</div>
+            </spin>
+        </i-col>
+        <i-col class="demo-spin-col" span="8">
+            <spin fix>
+                <div class="loader">
+                    <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
+            </spin>
+        </i-col>
+    </row>
+</div>
+<script>
+new Vue({
+    el: '#app_spin'
+})
+</script>
+<br>
+
+<h2>scroll example [<a href="https://www.iviewui.com/components/scroll">link</a>]</h2>
+<hr><br>
+<div id="app_scroll">
+    <scroll :on-reach-bottom="handleReachBottom">
+        <card dis-hover v-for="(item, index) in list1" :key="index" style="margin: 32px 0">
+            Content { item }
+        </card>
+    </scroll>
+</div>
+<script>
+new Vue({
+    el: '#app_scroll',
+    data () {
+        return {
+            list1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        }
+    },
+    methods: {
+        handleReachBottom () {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const last = this.list1[this.list1.length - 1];
+                    for (let i = 1; i < 11; i++) {
+                        this.list1.push(last + i);
+                    }
+                    resolve();
+                }, 2000);
+            });
+        }
+    },
+    delimiters: ['{', '}']
+})
+</script>
+<br>
 
 {{end}}
