@@ -1,0 +1,1298 @@
+{{extend "site/layout1.html"}}
+
+{{block title}}vuecoms examples in uliweb{{end title}}
+
+{{block content_main}}
+<script type="text/javascript" src="/static/echarts.common.js"></script>
+{{use "ui.vue"}}
+{{use "ui.iview"}}
+{{use "ui.vuecoms"}}
+
+<h2>box example [<a href="https://limodou.github.io/vuecoms-doc/box1.html">link</a>]</h2>
+<hr><br>
+<div id="app-box">
+  <Box title="这是标题">
+    <p>这是内容</p>
+    <p>这是内容</p>
+    <p>这是内容</p>
+    <p>这是内容</p>
+  </Box>
+</div>
+
+<script>
+new Vue({
+el: '#app-box'
+})
+</script>
+
+<h2>table simple example [<a href="https://limodou.github.io/vuecoms-doc/table1.html">link</a>]</h2>
+<hr><br>
+<div id="ex-table-01">
+  <Grid :data="table"></Grid>
+</div>
+
+<script>
+var ex_table_01 = new Vue({
+  el: '#ex-table-01',
+  data: function () {
+    var table = {
+      nowrap: true,
+      columns: [
+        {name:'name1', title:'Name1', width:200, fixed: 'left'},
+        {name:'name2', title:'Name2', width: 200, fixed: 'left'},
+        {name:'name3', title:'Name3', width:200},
+        {name:'name4', title:'Name4', align:'center', width:200},
+        {name:'name5', title:'Name5', width:200},
+        {name:'name6', title:'Name6', width:200}
+      ],
+      data: [],
+      combineCols:['name1', 'name2', 'name3', 'name4']
+    }
+
+    table.data.push({id:1, name1:'A1', name2:'B1', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+    table.data.push({id:2, name1:'A1', name2:'B1', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+    table.data.push({id:3, name1:'A1', name2:'B2', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+    table.data.push({id:4, name1:'A2', name2:'B2', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+    table.data.push({id:5, name1:'A2', name2:'B2', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+    table.data.push({id:6, name1:'A1', name2:'B1', name3:'C1', name4:'D1', name5:'E1', name6:'F1'})
+
+    return {table:table}
+  }
+})
+</script>
+
+<h2>table complex example [<a href="https://limodou.github.io/vuecoms-doc/table2.html">link</a>]</h2>
+<hr><br>
+<div id="ex-table-02">
+  <div>
+    <input ref="loading" v-model="loading_text" style="display:inline-block"></input>
+    <label style="display:inline-block">切换loading<input v-model="show_loading" type="checkbox"></input></label>
+    <label style="display:inline-block">切换nowrap<input v-model="show_nowrap" type="checkbox"></input></label>
+    <button @click="handleTitleHide">切换Title字段显示</button>
+  </div>
+  <Grid ref='grid' :data="table"
+    @on-selected="handleSelected"
+    @on-deselected="handleDeselected"
+    @on-selected-all="handleSelectedAll"
+    @on-deselected-all="handleDeselectedAll"
+    @on-query-change="handleQueryChange"></Grid>
+  <div>Selected: {selected}</div>
+  <div>Param: {param}</div>
+</div>
+<script>
+var ex_table_02 = new Vue({
+  el: '#ex-table-02',
+  data: function () {
+    var self = this
+    var table = {
+      columns: [],
+      multiSelect: true,
+      resizable: true,
+      pagination: true,
+      pageSizeOpts: [10, 30, 50],
+      total: 80,
+      height: 'auto',
+      draggable: true,
+      checkCol: true,
+      checkColWidth: 120,
+      checkColTitle: 'Check All',
+      indexCol: true,
+      data: [
+      ],
+      param: {
+        str1: "Hello World!!!",
+        tree: '1'
+      },
+      buttons: [
+        [
+          {label: '新增', type:'primary', onClick: function(target, data){
+              self.$Message.info('Click 新增')
+            }
+          },
+          {label: '编辑', disabled: true},
+          {label: '删除', onClick: function(target, data){
+              var selection = target.getSelection()
+              if (selection.length === 0) {
+                self.$Message.error('请先选择要删除的记录')
+              } else {
+                target.removeRow(selection)
+              }
+            }
+          },
+          {label: '设置机构查询值', onClick: function(target, data){
+              self.$refs.grid.$refs.query.store.states.value.tree = '2'
+              self.$refs.grid.$refs.query.store.states.fields[1].options.label = 'A机构'
+            }
+          }
+        ],
+        [
+          {label: '上移', icon:'ios-arrow-thin-up'},
+          {label: '下移', icon: 'ios-arrow-thin-down'}
+        ]
+      ],
+      rightButtons: [
+        [{label: '下载'}]
+      ],
+      bottomButtons: [
+        [{'label': '导出'}]
+      ],
+      onLoadData: function (url, param, callback) {
+        self.param = Object.assign({}, param)
+        var data = []
+        var b = (param.page - 1) * param.pageSize
+        for (var i = 0; i < param.pageSize; i++) {
+          var row = {id: b + i + 1, title: 'P' + param.page + '-Title-' + (i + 1)}
+          for (var j = 1; j < 10; j++) {
+            row['name' + j] = 'P' + param.page + '-Name-' + (i + 1) + '-' + j
+          }
+          data.push(row)
+        }
+        setTimeout( function () {
+          callback(data, {total:100})
+          }, 0)
+      },
+      onSelect: function (row) {
+        var r = row.id !== 1
+        if (!r) {
+          self.$Message.info('本行不能选择')
+        }
+        return r
+      },
+      onCheckable: function (row) {
+        var r = row.id !== 2 && row.id !==3
+        return r
+      }
+    }
+    table.columns.push({
+      name: 'id',
+      title: '合并/ID',
+      width: 40,
+      sortable: true,
+      fixed: 'left'
+    })
+    table.columns.push({
+      name: 'title',
+      title: '合并/Title',
+      sortable: true,
+      fixed: 'left',
+      format: function(value, column, row) {
+        return '<a href="#">' + value + '</a>'
+      }
+    })
+    for (var j = 1; j < 10; j++) {
+      table.columns.push({
+        name: 'name' + j,
+        title: 'Column' + j,
+        width: 100,
+        sortable: false,
+        align: 'center'
+      })
+    }
+    //隐藏字段
+    table.columns.push({
+      name: 'title',
+      title: 'Title',
+      sortable: false,
+      hidden: true
+    })
+    for (var i = 0; i < 10; i++) {
+      var row = {id: i + 1, title: 'Title-' + (i + 1)}
+      for (var j = 1; j < 10; j++) {
+        row['name' + j] = 'Name-' + (i + 1) + '-' + j
+      }
+      table.data.push(row)
+    }
+    table.query = {
+      fields: [
+        {name: "str1", type: "string", label: "字符串1", placeholder: "请输入字符串1"},
+        {name: "tree", type: "treeselect", label: "机构", options: {
+          remote: true,
+          'remote-load-data': function (item, callback) {
+            if (!item) {
+              callback([
+                {
+                  id: 'parent',
+                  title: 'parent',
+                  loading: false,
+                  children: []
+                }
+              ])
+            } else {
+              callback([
+                {
+                    title: 'children1',
+                    id: 'children1'
+                },
+                {
+                    id: 'children2',
+                    title: 'children2'
+                }
+              ])
+            }
+          }
+        }
+      }
+      ],
+      layout: [
+        ['str1', 'tree']
+      ],
+      buttons: {
+        align: "center",//按钮左中右 start center end 默认 end
+        submit: {
+          label: "点此查询",
+        },
+        clear: {
+          label: "点此清除"
+        }
+      },
+      choices: {}
+    }
+    return {
+      table:table,
+      selected:[],
+      logs:[],
+      loading_text:'loading',
+      show_loading:false,
+      show_nowrap: false,
+      param:{}
+    }
+  },
+  watch: {
+    show_loading: function() {
+      this.$refs.grid.showLoading(this.show_loading, this.loading_text)
+    },
+    show_nowrap: function () {
+      this.$refs.grid.$set(this.$refs.grid.store.states, 'nowrap', this.show_nowrap)
+    }
+  },
+  methods: {
+    handleSelected: function(row) {
+      this.selected = this.$refs.grid.getSelection()
+      this.logs.push(['selected', row])
+    },
+    handleDeselected: function(row) {
+      this.selected = this.$refs.grid.getSelection()
+      this.logs.push(['deselected', row])
+    },
+    handleSelectedAll: function(row) {
+      this.selected = this.$refs.grid.getSelection()
+      this.logs.push(['selected-all', row])
+    },
+    handleDeselectedAll: function(row) {
+      this.selected = this.$refs.grid.getSelection()
+      this.logs.push(['deselected-all', row])
+    },
+    handleTitleHide: function() {
+      var title_column = this.table.columns[1]
+      this.$set(title_column, 'hidden', !title_column.hidden)
+    },
+    handleQueryChange: function (data) {
+      console.log(data)
+    }
+  },
+  delimiters: ['{', '}']
+})
+</script>
+
+<h2>table 表格拖动 example [<a href="https://limodou.github.io/vuecoms-doc/table3.html">link</a>]</h2>
+<hr><br>
+<div id="ex-table-03">
+  <Grid ref="table" :data="table" @on-drag="handleDrag"></Grid>
+</div>
+<script>
+var ex_table_03 = new Vue({
+  el: '#ex-table-03',
+  data: function () {
+    var self = this
+    var table = {
+      nowrap: true,
+      draggable: true,
+      clickSelect: true,
+      columns: [
+        {name:'name1', title:'Name1', width:200,
+          render: function(h, param){
+            return h('RadioGroup', {
+                props: {
+                  value: param.value
+                },
+                on: {
+                  'input': function (value) {
+                    param.row[param.column.name] = value
+                  }
+                }
+              }, [
+                h('Radio', {
+                  props: {
+                    label: 'yes'
+                  }
+                }, '同意'),
+                h('Radio', {
+                  props: {
+                    label: 'no'
+                  }
+                }, '不同意')
+              ])
+          }
+        },
+        {name:'name2', title:'Name2', width: 200,
+          render: function(h, param){
+            return h('Input', {
+                props: {
+                  value: param.value,
+                  number: true
+                },
+                on: {
+                'input': function (value) {
+                    param.row[param.column.name] = value
+                  }
+                }
+              })
+          }
+        },
+        {name:'name3', title:'Name3', width:200},
+        {name:'name4', title:'Name4', width:200},
+      ],
+      buttons: [
+        [{label: '查看结果', type:'primary', onClick: function(){
+            console.table(self.$refs.table.store.states.data)
+          }}]
+      ],
+      data: []
+    }
+    table.data.push({id:1, name1:'A1', name2:'B1', name3:'C1', name4:'D1'})
+    table.data.push({id:2, name1:'A2', name2:'B2', name3:'C2', name4:'D2'})
+    table.data.push({id:3, name1:'A3', name2:'B3', name3:'C3', name4:'D3'})
+    table.data.push({id:4, name1:'A4', name2:'B4', name3:'C4', name4:'D4'})
+    table.data.push({id:5, name1:'A5', name2:'B5', name3:'C5', name4:'D5'})
+    table.data.push({id:6, name1:'A6', name2:'B6', name3:'C6', name4:'D6'})
+    return {table:table}
+  },
+  methods: {
+    handleDrag: function (v) {
+      console.log(v)
+    }
+  }
+})
+</script>
+
+<h2>table 表格行编辑 example [<a href="https://limodou.github.io/vuecoms-doc/table4.html">link</a>]</h2>
+<hr><br>
+<div id="ex-table-04">
+  <Grid ref="table" :data="table"></Grid>
+</div>
+<script>
+var ex_table_04 = new Vue({
+  el: '#ex-table-04',
+  data: function () {
+    var self = this
+    var table = {
+      editMode: 'row', // 行编辑模式
+      nowrap: true,
+      actionColumn: 'Action',
+      columns: [
+        {name:'name1', title:'Name1', width:200, editor: {type: 'string'}},
+        {name:'name2', title:'Name2', width: 200, align: 'left', editor: {type: 'select', options: {
+          choices: [['A', 'Test A'], ['B', 'Test B']]
+          }}
+        },
+        {name:'name3', title:'Name3', width:200, editor: {type: 'i-switch'}},
+        {name:'name4', title:'Name4', width:200, editor: {type: 'date'}},
+        {name:'Action', title:'Name5'}
+      ],
+      buttons: [
+        [
+          {label: '新建', type:'primary', onClick: function(target, store){
+              store.addEditRow()
+            }
+          }
+        ],
+        [{label: '查看结果', type:'primary', onClick: function(target, store){
+            console.table(store.states.data)
+          }}],
+        [{label: '显示注释', type:'primary', onClick: function(target, store){
+              store.setComment(1, 'name3', '这是评论')
+            }},
+        {label: '隐藏注释', type:'primary', onClick: function(target, store){
+              store.removeComment(1, 'name3')
+            }}
+          ],
+        [{label: '显示Class', type:'primary', onClick: function(target, store){
+              store.setClass(3, 'name3', 'ivu-btn-error')
+            }},
+        {label: '删除Class', type:'primary', onClick: function(target, store){
+              store.removeClass(3, 'name3')
+            }}
+          ]
+      ],
+      data: [],
+      onSaveRow: function (row, callback) {
+        self.$Message.info("save")
+        if (row.name1 === 'ok') {
+          setTimeout(function() {
+            callback('ok', row)
+          }, 500)
+        } else {
+          setTimeout(function() {
+            callback('error', {name1: '不正确'})
+          }, 500)
+        }
+      },
+      onDeleteRow: function (row, callback) {
+        self.$Message.info("delete")
+        callback('ok', row)
+      }
+    }
+    table.data.push({id:1, name1:'Field-A1', name2:'A', name3:'Field-C1', name4:'Field-D1'})
+    table.data.push({id:2, name1:'Field-A2', name2:'B', name3:'Field-C2', name4:'Field-D2'})
+    table.data.push({id:3, name1:'Field-A3', name2:'A', name3:'Field-C3', name4:'Field-D3'})
+    table.data.push({id:4, name1:'Field-A4', name2:'B', name3:'Field-C4', name4:'Field-D4'})
+    table.data.push({id:5, name1:'Field-A5', name2:'A', name3:'Field-C5', name4:'Field-D5'})
+    table.data.push({id:6, name1:'Field-A6', name2:'A', name3:'Field-C6', name4:'Field-D6'})
+    return {table:table}
+  }
+})
+</script>
+
+<h2>基本查询 example [<a href="https://limodou.github.io/vuecoms-doc/query1.html">link</a>]</h2>
+<hr><br>
+<div id="ex-query-01">
+  <query ref="query" :data="fields" :layout="layout"
+    :choices="choices"
+    :default-value="defaultValue" :show-line="1"
+    :value="value"
+    :label-width="labelWidth"
+    :show-selected="true"
+    @on-query-change="handleQueryChange"></query>
+    {value}
+</div>
+<script>
+var ex_query_01 = new Vue({
+  el: '#ex-query-01',
+  delimiters: ['{', '}'],
+  methods: {
+        changed: function (data) {
+          console.log(data);
+          return true;
+        },
+        submit: function(data){
+          console.log("submit event => ",data);
+          return true
+        },
+        handleQueryChange: function (change) {
+          console.log(change)
+        }
+  },
+  data: function () {
+        return {
+          labelWidth: 120,
+          fields: [
+                    {name: "str1", type: "string", label: "字符串1", placeholder: "请输入字符串1"},
+                    {name: "str2", type: "string", label: "字符串2", placeholder: "请输入字符串2"},
+                    {
+                      name: "select1",
+                      type: "select",
+                      label: "选择1",
+                      placeholder: "这是一个下拉单选项",
+                      options: {
+                        filterable: true
+                      }
+                    },
+                    {
+                      name: "select2",
+                      type: "select",
+                      label: "选择2",
+                      multiple: true,
+                      placeholder: "这是一个下拉多选项"
+                    },
+                    {
+                      name: "datepicker",
+                      type: "date",
+                      label: "日期",
+                      placeholder: "日期单选",
+                      options: {
+                        confirm: true,
+                        size: "default",
+                        placement: "bottom",//top top-start top-end bottom bottom-start bottom-end left left-start left-end right right-start right-end (default bottom-start)
+                        disabledDate: function (date) {
+                          return date && date.valueOf() < Date.now() - 86400000;
+                        },
+                        shortcuts: [
+                          {
+                            text: 'Today',
+                            value: function() {
+                              return new Date();
+                            },
+                            onClick: function(picker){
+                              this.$Message.info('Click today');
+                            }
+                          },
+                          {
+                            text: 'Yesterday',
+                            value: function(){
+                              var date = new Date();
+                              date.setTime(date.getTime() - 3600 * 1000 * 24);
+                              return date;
+                            },
+                            onClick: function(picker){
+                              this.$Message.info('Click yesterday');
+                            }
+                          },
+                          {
+                            text: 'One week',
+                            value: function(){
+                              var date = new Date();
+                              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                              return date;
+                            },
+                            onClick: function(picker){
+                              this.$Message.info('Click a week ago');
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      name: 'datepickerrange',
+                      type: 'datepickerrange',
+                      label: '日期范围',
+                      options: {
+                        placeholderBegin: '开始时间',
+                        placeholderEnd: '结束时间'
+                      }
+                    },
+                    {
+                      name: "radio",
+                      type: "radio",
+                      label: "单选框",
+                      options: {
+                        choices: [
+                          {value: "1", label: "备选项1"},
+                          {value: "2", label: "备选项2", disabled: true},
+                          {value: "3", label: "备选项3"}
+                        ]
+                      }
+                    },
+                    {
+                      name: "checkbox",
+                      type: "checkboxgroup",
+                      label: "多选框",
+                      options: {
+                        choices: [
+                          {value: "1", label: "备选项1"},
+                          {value: "2", label: "备选项2", disabled: true},
+                          {value: "3", label: "备选项3"}
+                        ]
+                      }
+                    },
+                  ],
+                  layout: [
+                    ['str1', 'str2'],
+                    ['select1', 'select2'],
+                    ['datepicker', 'datepickerrange'],
+                    ['radio', 'checkbox']
+                  ],
+                  defaultValue: {
+                    select1: 'city_003',
+                    select2: ["city_001"],
+                    str1: "Hello World!!!",
+                    checkbox: ["1","2"],
+                    radio: "1",
+                  },
+                  value: {
+                    datepickerrange: ['2018-04-20', '2018-04-22']
+                  },
+                  choices: {
+                    select1: [{label: "西雅图", value: "city_001"}, {label: "旧金山", value: "city_002"}, {
+                      label: "洛杉矶",
+                      value: "city_003"
+                    }],
+                    select2: [
+                      {label: "西雅图", value: "city_001"},
+                      {label: "旧金山", value: "city_002"},
+                      {label: "洛杉矶", value: "city_003"}
+                    ],
+                  },
+                  buttons: {
+                    align: "center",//按钮左中右 start center end 默认 end
+                    submit: {
+                      label: "点此查询",
+                    },
+                    clear: {
+                      label: "点此清除",
+                      show:false
+                    }
+                  }
+        }
+      },
+})
+</script>
+
+<h2>树控件 example [<a href="https://limodou.github.io/vuecoms-doc/tree1.html">link</a>]</h2>
+<hr><br>
+<div id="ex-tree-01" style="width: 200px; overflow: auto; border: 1px solid gray;">
+  <Tree :data="data"></Tree>
+</div>
+<script>
+var ex_tree_01 = new Vue({
+  el: '#ex-tree-01',
+  data: function () {
+    var data = [
+      {
+        title: 'parent 1',
+        expand: true,
+        children: [
+          {
+            title: 'parent 1-1 - long- long- long- long- long- long',
+            expand: true,
+            children: [
+              {
+                title: 'leaf 1-1-1- long- long- long- long- long- long'
+              },
+              {
+                title: 'leaf 1-1-2'
+              }
+            ]
+          },
+          {
+            title: 'parent 1-2',
+            expand: true,
+            children: [
+              {
+                title: 'leaf 1-2-1'
+              },
+              {
+                title: 'leaf 1-2-1'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    return {data:data}
+  }
+})
+</script>
+
+<h2>树选择控件 example [<a href="https://limodou.github.io/vuecoms-doc/treeselect.html">link</a>]</h2>
+<hr><br>
+<div id="ex-tree-select-01">
+  <tree-select :choices="choices" v-model="value" clearable filterable></tree-select>
+  <pre>{value}</pre>
+</div>
+<script>
+new Vue({
+  el: '#ex-tree-select-01',
+  delimiters: ['{', '}'],
+  data: function () {
+    var data = [
+      {
+        id: 'a',
+        title: 'parent 1',
+        expand: true,
+        children: [
+          {
+            id: 'a1',
+            title: 'parent 1-1 - long- long- long- long- long- long',
+            expand: true,
+            children: [
+              {
+                id: 'a1-1',
+                title: 'leaf 1-1-1- long- long- long- long- long- long'
+              },
+              {
+                id: 'a1-2',
+                title: 'leaf 1-1-2'
+              }
+            ]
+          },
+          {
+            id: 'a2',
+            title: 'parent 1-2',
+            expand: true,
+            children: [
+              {
+                id: 'a2-1',
+                title: 'leaf 1-2-1'
+              },
+              {
+                id: 'a2-2',
+                title: 'leaf 1-2-1'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+    return {choices: data, value:''}
+  }
+})
+</script>
+
+<h2>基本构建 example [<a href="https://limodou.github.io/vuecoms-doc/build1.html">link</a>]</h2>
+<hr><br>
+<div id="ex-build-01">
+  <build ref="build" :data="data" :value="value" :errors="errors" :rules="rules" :choices="choices"></build>
+  <div>
+    {value}
+  </div>
+</div>
+<script>
+var ex_build_01 = new Vue({
+  el: '#ex-build-01',
+  delimiters: ['{', '}'],
+  data: function () {
+    var self = this
+    var data = [
+      {
+        name: 'basic',
+        title: '基本信息',
+        labelWidth: 150,
+        staticSuffix: '_static',
+        fields: [
+          {name: 'str1', label: '字符串1', placeholder: '请输入...', help: '帮助信息',
+            info: 'info信息', required: true, rule: {type: 'email'}},
+          {name: 'str2', label: '静态字符串2', static: true, required: true, format: function(v){
+            return '<a href="#">' + v + '</a>'
+          }},
+          {name: 'select1', label: '选择1', type: 'select', required: true, options: {clearable: true}},
+          {name: 'select2', label: '选择2', type: 'select', static: true, options: {clearable: true},
+            help: '这是设置了select2_static的结果，未使用缺省机制'
+          },
+          {name: 'select3', label: '选择3', type: 'select', required: true, multiple: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'select4', label: '选择4', type: 'select', multiple: true, static: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'radio1', label: '选择5', type: 'radio', required: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'radio2', label: '选择6', type: 'radio', static: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'checkboxgroup1', label: '选择7', type: 'checkboxgroup', multiple: true, required: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'checkboxgroup2', label: '选择8', type: 'checkboxgroup', static: true, options: {choices: [
+            {label:'选项一', value: 'A'},
+            {label:'选项二', value: 'B'},
+            ]}
+          },
+          {name: 'checkbox1', label: '选择9', type: 'checkbox', required: true},
+          {name: 'checkbox2', label: '选择10', type: 'checkbox', static: true},
+          {name: 'text1', label: '文本1', type: 'text', required: true, rule:{max:20}, help: '最多输入20个汉字'},
+          {name: 'text2', label: '文本2', type: 'text', static: true, rule:{max:20}, help: '最多输入20个汉字'},
+          {name: 'date1', label: '日期1', required: true, type: 'date'},
+          {name: 'date2', label: '日期2', type: 'date', static: true},
+          {name: 'date3', label: '日期1', required: true, type: 'datetime'},
+          {name: 'date4', label: '日期2', type: 'datetime', static: true},
+          {name: 'tree1', label: '树选择', required: true, type: 'treeselect', multiple: true, options: {choices:
+            [ {
+                  id: 'fruits',
+                  title: 'Fruits',
+                  children: [ {
+                    id: 'apple',
+                    title: 'Apple',
+                  }, {
+                    id: 'grapes',
+                    title: 'Grapes',
+                  }, {
+                    id: 'pear',
+                    title: 'Pear',
+                  }, {
+                    id: 'strawberry',
+                    title: 'Strawberry',
+                  }, {
+                    id: 'watermelon',
+                    title: 'Watermelon',
+                  } ],
+                }, {
+                  id: 'vegetables',
+                  title: 'Vegetables',
+                  children: [ {
+                    id: 'corn',
+                    title: 'Corn',
+                  }, {
+                    id: 'carrot',
+                    title: 'Carrot',
+                  }, {
+                    id: 'eggplant',
+                    title: 'Eggplant',
+                  }, {
+                    id: 'tomato',
+                    title: 'Tomato',
+                  } ],
+                } ]
+              }
+          },
+          {name: 'switch', label: '开关', type: 'i-switch'},
+          {name: 'slider', label: '滑块', type: 'Slider', required: true, rule: {type: 'number'}},
+        ],
+        layout: [
+          ['str1', 'str2'],
+          ['select1', 'select2'],
+          ['select3', 'select4'],
+          ['radio1', 'radio2'],
+          ['checkboxgroup1', 'checkboxgroup2'],
+          ['checkbox1', 'checkbox2'],
+          ['text1'],
+          ['text2'],
+          ['date1', 'date2'],
+          ['date3', 'date4'],
+          ['tree1'],
+          ['switch', 'slider']
+        ],
+        component: 'Layout',
+        boxComponent: 'Box',
+        boxOptions: {widthBorder: false, headerClass: 'primary'},
+        buttons: {
+          items: [
+            [{label: '查看结果', type:'primary', onClick: function(target, data){
+                console.log(target, data)
+              }
+            }],
+            [{label: '校验', type:'primary', onClick: function(target, data){
+                target.validate(self.save)
+              }
+            }],
+            [{label: '合并出错结果', type:'info', onClick: function(target, data){
+                self.errors = {select1: '这是合并后的错误'}
+              }
+            }],
+            [{label: '更新select1-2 choices', type:'info', onClick: function(target, data){
+                target.fields.select1.options.choices = [
+                  {label:'选项A', value: 'A'},
+                  {label:'选项B', value: 'B'},
+                  {label:'选项C', value: 'C'}
+                ]
+                target.fields.select2.options.choices = [
+                  {label:'选项A', value: 'A'},
+                  {label:'选项B', value: 'B'},
+                  {label:'选项C', value: 'C'}
+                ]
+              }
+            }],
+            [{label: '提交测试', type:'info', name: 'submit', onClick: function(target, data){
+                console.log(this)
+                this.disabled = true
+                this.btns.submit.loading = true
+                var self = this
+                setTimeout(function () {
+                  self.btns.submit.loading = false
+                  self.disabled = false
+                }, 5000)
+              }
+            }]
+          ],
+          size: ''
+        }
+      },
+      {
+        name: 'basic',
+        title: '',
+        labelWidth: 150,
+        staticSuffix: '_static',
+        fields: [
+          {name: 'str1', label: '字符串1', placeholder: '请输入...', help: '帮助信息',
+            info: 'info信息', required: true, rule: {type: 'email'}},
+        ],
+        layout: [
+          ['str1']
+        ],
+        boxComponent: ''
+      }
+    ]
+    return {
+            data:data,
+            value: {
+              str1: 'email@gmail.com',
+              str2: 'aaa',
+              select1: 'A',
+              select2_static: '静态结果',
+              select3: ['A', 'B'],
+              select4: ['A', 'B'],
+              radio2: 'A',
+              checkboxgroup2: ['A', 'B'],
+              checkbox2: 'B',
+              text1: 'Line 1\nLine 2',
+              text2: 'Line 3\nLine 4\nLine 5\nLine 6\nLine 7\nLine 8',
+              date2: '2017-12-12',
+              date4: '2017-12-12 12:01:28'
+            },
+            choices: {
+                select1: [
+                  {label:'选项一', value: 'A'}
+                ]
+            },
+            errors: {},
+            rules: {
+              str1: function(rule, value, callback, source, options) {
+                if (value !== 'abc@gmail.com') {
+                  callback (new Error('邮件地址必须为 abc@gmail.com'))
+                } else {
+                  callback()
+                }
+              }
+            }
+          }
+  },
+  methods: {
+    save: function(error) {
+      if (error) {
+        this.$Message.error(error)
+      } else {
+        this.$Message.info('saved')
+      }
+    }
+  },
+  mounted: function () {
+    /* var self = this
+    setTimeout(function () {
+      var c = [
+        {label:'选项一', value: 'A'},
+        {label:'选项二', value: 'B'},
+        {label:'选项三', value: 'C'}
+      ]
+      self.$set(self.choices, 'select1', c)
+    }, 1000) */
+  }
+})
+</script>
+
+<h2>多段展示 example [<a href="https://limodou.github.io/vuecoms-doc/build2.html">link</a>]</h2>
+<hr><br>
+<div id="ex-build-02">
+  <build ref="build" :data="data" :value="value" :errors="errors" :rules="rules" :label-width="labelWidth"></build>
+  <div>
+    {value}
+  </div>
+</div>
+<script>
+var choices = [
+  {label:'选项一', value: 'A'},
+  {label:'选项二', value: 'B'},
+  ]
+Vue.component('u-table', {
+  template: '<table><tr><th>Test</th></tr><tr><td>AAA</td></tr></table>'
+})
+var ex_build_02 = new Vue({
+  el: '#ex-build-02',
+  delimiters: ['{', '}'],
+  data: function () {
+    var self = this
+    var data = [
+      {
+        name: 'basic1',
+        title: '基本信息1',
+        fields: [
+          {name: 'str1', label: '字符串1', placeholder: '请输入...', help: '帮助信息',
+            info: 'info信息', required: true, rule: {type: 'email'}},
+          {name: 'str2', label: '静态字符串2', static: true, required: true, convert: function(v){
+            return '<a href="#">' + v + '</a>'
+            }
+          },
+          {name: 'select1', label: '选择', type: 'select', required: true, options: {choices: choices}},
+          {name: 'select2', label: '选择', type: 'select', static: true, options: {choices: choices}},
+          {name: 'rich1', label: '富文本', type: 'tinymce', options: { options: {height: 200}}},
+        ],
+        layout: [
+          ['str1', 'str2'],
+          ['select1', 'select2'],
+          ['rich1']
+        ],
+        component: 'Layout',
+        boxComponent: 'Box',
+      },
+      {
+        name: 'files',
+        title: '附件',
+        component: 'u-table'
+      },
+      {
+        name: 'basic2',
+        title: '基本信息2',
+        fields: [
+          {name: 'select3', label: '选择', type: 'select', required: true, multiple: true, options: {choices: choices}
+          },
+          {name: 'select4', label: '选择', type: 'select', multiple: true, static: true, options: {choices: choices}
+          },
+        ],
+        layout: [
+          ['select3', 'select4'],
+        ]
+      },
+      {
+        name: 'buttons',
+        buttons: [
+            [{label: '查看结果', type:'primary', onClick: function(target, data){
+                console.log(target, data)
+              }
+            }],
+            [{label: '校验', type:'primary', onClick: function(target, data){
+                self.$refs.build.validate(self.save)
+              }
+            }],
+            [{label: '合并出错结果', type:'info', onClick: function(target, data){
+                self.$refs.build.errors = {select1: '这是合并后的错误'}
+              }
+            }]
+          ],
+        size: 'default',
+        component: 'buttons'
+      }
+    ]
+    return {data:data, value: {
+              select1: 'B',
+              select2: 'A',
+              select3: ['A', 'B'],
+              select4: ['A', 'B'],
+            },
+            errors: {},
+            rules: {
+              str1: function(rule, value, callback, source, options) {
+                if (value !== 'abc@gmail.com') {
+                  callback (new Error('邮件地址必须为 abc@gmail.com'))
+                } else {
+                  callback()
+                }
+              }
+            },
+            labelWidth: 200
+          }
+  },
+  methods: {
+    save: function(error) {
+      if (error) {
+        this.$Message.error(error)
+      } else {
+        this.$Message.info('saved')
+      }
+    }
+  }
+})
+</script>
+
+<h2>EChart 图表 example [<a href="https://limodou.github.io/vuecoms-doc/chart.html">link</a>]</h2>
+<hr><br>
+<div id="ex-echart-01">
+  <Chart :options="polar"></Chart>
+</div>
+<style>
+.echarts {
+  height: 600px;
+  width: 1024px;
+}
+</style>
+<script>
+var polar = {
+    title: {
+        text: '堆叠区域图'
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            label: {
+                backgroundColor: '#6a7985'
+            }
+        }
+    },
+    legend: {
+        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : ['周一','周二','周三','周四','周五','周六','周日']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'邮件营销',
+            type:'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data:[120, 132, 101, 134, 90, 230, 210]
+        },
+        {
+            name:'联盟广告',
+            type:'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data:[220, 182, 191, 234, 290, 330, 310]
+        },
+        {
+            name:'视频广告',
+            type:'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data:[150, 232, 201, 154, 190, 330, 410]
+        },
+        {
+            name:'直接访问',
+            type:'line',
+            stack: '总量',
+            areaStyle: {normal: {}},
+            data:[320, 332, 301, 334, 390, 330, 320]
+        },
+        {
+            name:'搜索引擎',
+            type:'line',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
+            areaStyle: {normal: {}},
+            data:[820, 932, 901, 934, 1290, 1330, 1320]
+        }
+    ]
+}
+var ex_echart_01 = new Vue({
+  el: '#ex-echart-01',
+  data: function () {
+    return {polar: polar}
+  }
+})
+</script>
+
+<h2>编辑器 example [<a href="https://limodou.github.io/vuecoms-doc/editor.html">link</a>]</h2>
+<hr><br>
+<div id="ex-editor-01">
+  <tinymce ref="editor" :name="name" v-model="value" :options="options"></tinymce>
+</div>
+<script>
+var ex_editor_01 = new Vue({
+  el: '#ex-editor-01',
+  data: function () {
+    return {
+      name: 'editor',
+      value: 'Hello',
+      options: {
+        images_upload_url: 'postAcceptor.php',
+        image_title: true,
+        // file_picker_callback: function(cb, value, meta) {
+        //   var input = document.createElement('input');
+        //   input.setAttribute('type', 'file');
+        //   input.setAttribute('accept', 'image/*');
+        //   input.onchange = function() {
+        //     var file = this.files[0];
+        //     var reader = new FileReader();
+        //     reader.onload = function () {
+        //       // Note: Now we need to register the blob in TinyMCEs image blob
+        //       // registry. In the next release this part hopefully won't be
+        //       // necessary, as we are looking to handle it internally.
+        //       var id = 'blobid' + (new Date()).getTime();
+        //       var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        //       var base64 = reader.result.split(',')[1];
+        //       var blobInfo = blobCache.create(id, file, base64);
+        //       blobCache.add(blobInfo);
+        //       // call the callback and populate the Title field with the file name
+        //       cb(blobInfo.blobUri(), { title: file.name });
+        //     };
+        //     reader.readAsDataURL(file);
+        //   };
+        //   input.click();
+        // },
+        // images_upload_handler: function (blobInfo, success, failure) {
+        //   setTimeout(function() {
+        //     // no matter what you upload, we will turn it into TinyMCE logo :)
+        //     success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+        //   }, 2000);
+        // },
+        file_picker_types: 'file image',
+        paste_data_images: true
+      }
+    }
+  }
+})
+</script>
+
+<h2>对话框 example [<a href="https://limodou.github.io/vuecoms-doc/dialog.html">link</a>]</h2>
+<hr><br>
+<div id="ex-dialog-01">
+  <i-button type="primary" @click="open=true">Show Modal</i-button>
+  <Modal v-model="open"
+    title="对话框标题"
+    width="1024"
+  >
+    <build ref="build" :data="data" :value="value"></build>
+  </Model>
+</div>
+<script>
+var choices = [
+  {label:'选项一', value: 'A'},
+  {label:'选项二', value: 'B'},
+  ]
+var ex_editor_01 = new Vue({
+  el: '#ex-dialog-01',
+  data: function () {
+    var data = [
+      {
+        name: 'basic1',
+        title: '基本信息1',
+        fields: [
+          {name: 'str1', label: '字符串1', placeholder: '请输入...', help: '帮助信息',
+            info: 'info信息', required: true, rule: {type: 'email'}},
+          {name: 'str2', label: '静态字符串2', static: true, required: true, convert: function(v){
+            return '<a href="#">' + v + '</a>'
+            }
+          },
+          {name: 'select1', label: '选择', type: 'select', required: true, options: {choices: choices}},
+          {name: 'select2', label: '选择', type: 'select', static: true, options: {choices: choices}},
+          {name: 'rich1', label: '富文本', type: 'tinymce', options: { options: {height: 200}}},
+        ],
+        layout: [
+          ['str1', 'str2'],
+          ['select1', 'select2'],
+          ['rich1']
+        ],
+        component: 'Layout',
+        boxComponent: ''
+      }
+    ]
+    return {
+      open: false,
+      data: data,
+      value: {
+        select1: 'B',
+        select2: 'A',
+        select3: ['A', 'B'],
+        select4: ['A', 'B'],
+      }
+    }
+  }
+})
+</script>
+
+
+{{end}}
